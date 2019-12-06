@@ -1,25 +1,31 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Layout, Text } from "react-native-ui-kitten";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-ui-kitten";
 
-function HomeView() {
+function ActionsView() {
   return (
-    <Layout style={styles.container}>
+    <View style={styles.container}>
       <Text>ActionsView</Text>
-    </Layout>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // container: {
+  //   flex: 1,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   flexDirection: "column",
+  //   flexWrap: "wrap",
+  //   paddingVertical: 4,
+  //   paddingHorizontal: 4
+  // }
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    paddingVertical: 4,
-    paddingHorizontal: 4
+    flexWrap: "wrap"
   }
 });
 
-export default HomeView;
+export default ActionsView;
