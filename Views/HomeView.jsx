@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, AsyncStorage, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import * as imageDictionary from "./ProfilesAdresses";
 import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
 
@@ -20,19 +20,6 @@ class HomeView extends React.Component {
                 <Text style={styles.title}>{value.title}</Text>
 
                 <Image
-                  // source={async () => {
-                  //   try {
-                  //     const retreived = await AsyncStorage.getItem("profilePic");
-                  //     if (retreived != null) {
-                  //       const item = JSON.parse(retreived);
-                  //       console.log(item);
-                  //       return imageDictionary[item.img];
-                  //     }
-                  //   } catch (error) {
-                  //     console.log(error);
-                  //   }
-                  // console.log(this.state.profilePics[id]);
-
                   source={imageDictionary[value.img]}
                   style={styles.picture}
                 />

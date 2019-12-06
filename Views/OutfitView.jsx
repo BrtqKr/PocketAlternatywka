@@ -11,16 +11,13 @@ import {
   AsyncStorage
 } from "react-native";
 import * as imageDictionary from "./ProfilesAdresses";
-import {
-  ConfigProvider,
-  ConfigConsumer
-} from "../Providers/ProfileProviderConfig";
+import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
 
 const profilePics = [
   {
-    title: "Doge Alternatywka0",
+    title: "Doge Alternatywka",
     img: "Profile1",
-    description: "Smutna jest, płacze w kącie cały dzień0",
+    description: "Smutna jest, płacze w kącie cały dzień",
     id: 0
   },
   {
@@ -74,21 +71,7 @@ const profilePics = [
 ];
 
 class OutfitView extends React.Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   // this.state = {
-  //   //   chosenPicIndex: 0
-  //   // };
-  // }
-
-  // componentDidUpdate() {
-  //   const value = this.context;
-  //   value.setProfile(this.state.profilePics[this.state.chosenPicIndex]);
-  // }
-
   setProfile = (id, value) => {
-    // const value = this.context;
     value.setProfile(profilePics[id]);
   };
 
