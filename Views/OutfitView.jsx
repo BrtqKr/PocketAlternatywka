@@ -11,128 +11,150 @@ import {
   AsyncStorage
 } from "react-native";
 import * as imageDictionary from "./ProfilesAdresses";
+import {
+  ConfigProvider,
+  ConfigConsumer
+} from "../Providers/ProfileProviderConfig";
+
+const profilePics = [
+  {
+    title: "Doge Alternatywka0",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień0",
+    id: 0
+  },
+  {
+    title: "Doge Alternatywka1",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień1",
+    id: 1
+  },
+  {
+    title: "Doge Alternatywka2",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień2",
+    id: 2
+  },
+  {
+    title: "Doge Alternatywka3",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień3",
+    id: 3
+  },
+  {
+    title: "Doge Alternatywka",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień",
+    id: 4
+  },
+  {
+    title: "Doge Alternatywka",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień",
+    id: 5
+  },
+  {
+    title: "Doge Alternatywka",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień",
+    id: 6
+  },
+  {
+    title: "Doge Alternatywka",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień",
+    id: 7
+  },
+  {
+    title: "Doge Alternatywka",
+    img: "Profile1",
+    description: "Smutna jest, płacze w kącie cały dzień",
+    id: 8
+  }
+];
 
 class OutfitView extends React.Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      profilePics: [
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 0
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 1
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 2
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 3
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 4
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 5
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 6
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 7
-        },
-        {
-          title: "Doge Alternatywka",
-          img: "Profile1",
-          description: "Smutna jest, płacze w kącie cały dzień",
-          id: 8
-        }
-      ]
-    };
-  }
+  //   // this.state = {
+  //   //   chosenPicIndex: 0
+  //   // };
+  // }
 
-  onPRess = async () => {
-    try {
-      const value = await AsyncStorage.setItem(
-        "profilePic",
-        JSON.stringify(this.state.profilePics[id])
-      );
-      if (value != null) {
-        console.log(id);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    // console.log(this.state.profilePics[id]);
+  // componentDidUpdate() {
+  //   const value = this.context;
+  //   value.setProfile(this.state.profilePics[this.state.chosenPicIndex]);
+  // }
+
+  setProfile = (id, value) => {
+    // const value = this.context;
+    value.setProfile(profilePics[id]);
   };
+
+  // onPRess = async () => {
+  //   try {
+  //     const value = await AsyncStorage.setItem(
+  //       "profilePic",
+  //       JSON.stringify(this.state.profilePics[id])
+  //     );
+  //     if (value != null) {
+  //       console.log(id);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // console.log(this.state.profilePics[id]);
+  // };
 
   // onViewableItemsChanged = ({ viewableItems, changed }) =>
   //   this.setState({ viewableItems });
-  setProfilePic = async index => {
-    try {
-      const value = await AsyncStorage.setItem(
-        "profilePic",
-        JSON.stringify(this.state.profilePics[index])
-      );
-      if (value != null) {
-        console.log(index);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // setProfilePic = async index => {
+  //   try {
+  //     const value = await AsyncStorage.setItem(
+  //       "profilePic",
+  //       JSON.stringify(this.state.profilePics[index])
+  //     );
+  //     if (value != null) {
+  //       console.log(index);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   render() {
-    const { profilePics } = this.state;
     return (
-      <View style={styles.container}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-        >
-          {profilePics.map(({ title, id, description, img }) => (
-            <View key={id} style={styles.scrollContainer}>
-              <Text style={styles.title}>{title}</Text>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                // onPress={async () => {
-                //   await this.setProfilePic(img);
-                // }}
-                onPress={this.onPRess}
-              >
-                <Image source={imageDictionary[img]} style={styles.picture} />
-              </TouchableOpacity>
-              <Text style={styles.bottomText}>{description}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
+      <ConfigConsumer>
+        {value => (
+          <View style={styles.container}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled
+            >
+              {profilePics.map(({ title, id, description, img }) => (
+                <View key={id} style={styles.scrollContainer}>
+                  <Text style={styles.title}>{title}</Text>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    // onPress={async () => {
+                    //   await this.setProfilePic(img);
+                    // }}
+                    onPress={() => this.setProfile(id, value)}
+                  >
+                    <Image
+                      source={imageDictionary[img]}
+                      style={styles.picture}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.bottomText}>{description}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+      </ConfigConsumer>
     );
   }
 }

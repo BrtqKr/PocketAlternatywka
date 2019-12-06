@@ -8,23 +8,29 @@ class ConfigProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePic: {
-        title: "Doge Alternatywka",
-        img: "Profile1",
-        description: "Smutna jest, płacze w kącie cały dzień",
-        id: 0
-      }
+      title: "Doge Alternatywka",
+      img: "Profile1",
+      description: "Smutna jest, płacze w kącie cały dzień",
+      id: 0
     };
   }
+
+  setProfile = profile => {
+    this.setState({ title: profile.title });
+    this.setState({ img: profile.img });
+    this.setState({ description: profile.description });
+    this.setState({ id: profile.id });
+  };
 
   render() {
     return (
       <Provider
         value={{
-          title: this.state.profilePic.title,
-          img: this.state.profilePic.img,
-          description: this.state.profilePic.description,
-          id: this.state.profilePic.id
+          title: this.state.title,
+          img: this.state.img,
+          description: this.state.description,
+          id: this.state.id,
+          setProfile: e => this.setProfile(e)
         }}
       >
         {this.props.children}
