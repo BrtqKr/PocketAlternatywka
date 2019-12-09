@@ -33,20 +33,24 @@ class StatsProvider extends Component {
   };
 
   setStats = newStats => {
-    this.setState(prevState => ({
-      stats: [
-        prevState.stats[0] + newStats[0],
-        prevState.stats[1] + newStats[1],
-        prevState.stats[2] + newStats[2],
-        prevState.stats[3] + newStats[3],
-        prevState.stats[4] + newStats[4],
-        prevState.stats[5] + newStats[5],
-        prevState.stats[6] + newStats[6],
-        prevState.stats[7] + newStats[7]
-      ]
-    }));
-    if (this.state != null)
-      AsyncStorage.setItem("stats", JSON.stringify(this.state.stats));
+    this.setState(prevState => {
+      const newState = {
+        stats: [
+          prevState.stats[0] + newStats[0],
+          prevState.stats[1] + newStats[1],
+          prevState.stats[2] + newStats[2],
+          prevState.stats[3] + newStats[3],
+          prevState.stats[4] + newStats[4],
+          prevState.stats[5] + newStats[5],
+          prevState.stats[6] + newStats[6],
+          prevState.stats[7] + newStats[7]
+        ]
+      };
+      // eslint-disable-next-line react/no-access-state-in-setstate
+      if (this.state != null)
+        AsyncStorage.setItem("stats", JSON.stringify(newState.stats));
+      return newState;
+    });
   };
 
   render() {
