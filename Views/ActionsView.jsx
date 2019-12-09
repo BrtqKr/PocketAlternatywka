@@ -30,95 +30,166 @@ function ActionsView() {
     value.setStats(stats);
   };
 
+  const takeDictionary = [
+    {
+      text: "Wixapol",
+      stats: [0, 0, 0.1, 0.1, 0.15, 0, 0, 0]
+    },
+    {
+      text: "Sesję na cmentarzu",
+      stats: [0.1, 0.05, 0, 0.2, 0.1, 0, 0, 0]
+    },
+    {
+      text: "Jaranie weed",
+      stats: [0, 0, -0.1, -0.1, 0.05, 0, 0, 0]
+    }
+  ];
   const renderTakeElement = value => (
     <View>
-      <Button
-        style={styles.button}
-        status="basic"
-        onPress={() => {
-          toggleTake();
-          setStats([0, 0, 0.1, 0.1, 0.15, 0, 0, 0], value);
-        }}
-      >
-        Wixapol
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleTake}>
-        Sesję na cmentarzu
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleTake}>
-        Jaranie weed
-      </Button>
+      {takeDictionary.map(({ text, stats }) => (
+        <Button
+          style={styles.button}
+          status="basic"
+          onPress={() => {
+            toggleTake();
+            setStats(stats, value);
+          }}
+        >
+          {text}
+        </Button>
+      ))}
     </View>
   );
+
+  const buyDictionary = [
+    "Weed",
+    "Szmatę z lumpa",
+    "Płytę Billie Eilish",
+    "Płytę Lil Pepa",
+    "Farbę do włosów"
+  ];
 
   const renderBuyElement = () => (
     <View>
-      <Button style={styles.button} status="basic" onPress={toggleBuy}>
-        Weed
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleBuy}>
-        Szmatę z lumpa
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleBuy}>
-        Płytę Billie Eilish
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleBuy}>
-        Płytę Lil Pepa
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleBuy}>
-        Farbę do włosów
-      </Button>
+      {buyDictionary.map(text => (
+        <Button
+          style={styles.button}
+          status="basic"
+          onPress={() => {
+            toggleBuy();
+          }}
+        >
+          {text}
+        </Button>
+      ))}
     </View>
   );
 
-  const renderOrderElement = () => (
+  const orderDictionary = [
+    {
+      text: "Usiądź na mordzie",
+      stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0]
+    },
+    {
+      text: "Zrób dziarkę",
+      stats: [0.15, 0, 0, 0.1, 0.1, 0.3, 0.1, 0.1]
+    },
+    {
+      text: "Pokaż stopy",
+      stats: [0, 0, 0, -0.1, 0.05, 0, 0, 0]
+    },
+    {
+      text: "Zrób filtry na insta",
+      stats: [0.05, 0, 0.15, 0.05, 0, 0, 0, 0]
+    }
+  ];
+
+  const renderOrderElement = value => (
     <View>
-      <Button style={styles.button} status="basic" onPress={toggleOrder}>
-        Usiądź na mordzie
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOrder}>
-        Zrób dziarkę
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOrder}>
-        Pokaż stopy
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOrder}>
-        Zrób filtry na insta
-      </Button>
+      {orderDictionary.map(({ text, stats }) => (
+        <Button
+          style={styles.button}
+          status="basic"
+          onPress={() => {
+            toggleOrder();
+            setStats(stats, value);
+          }}
+        >
+          {text}
+        </Button>
+      ))}
     </View>
   );
 
-  const renderSendElement = () => (
+  const sendDictionary = [
+    {
+      text: "Memucha",
+      stats: [0.05, 0, 0, -0.2, 0.05, 0, 0, 0]
+    },
+    {
+      text: "Smutną piosenkę",
+      stats: [0.05, 0, 0, 0.1, 0.1, 0, 0.1, 0.1]
+    },
+    {
+      text: "Weed",
+      stats: [0.5, 0, 0.1, -0.2, 0.1, 0, 0, 0]
+    }
+  ];
+
+  const renderSendElement = value => (
     <View>
-      <Button style={styles.button} status="basic" onPress={toggleSend}>
-        Memucha
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleSend}>
-        Smutną piosenkę ;_;
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleSend}>
-        Weed
-      </Button>
+      {sendDictionary.map(({ text, stats }) => (
+        <Button
+          style={styles.button}
+          status="basic"
+          onPress={() => {
+            toggleSend();
+            setStats(stats, value);
+          }}
+        >
+          {text}
+        </Button>
+      ))}
     </View>
   );
 
-  const renderOffendElement = () => (
+  const offendDictionary = [
+    {
+      text: "Podważ alternatywność",
+      stats: [-0.5, 0, 0.5, 0.2, 0.3, 0, 0.2, 0.2]
+    },
+    {
+      text: "Nazwij atencjuszką",
+      stats: [0.5, 0, 0.5, 0.2, 0.2, 0, 0.3, 0.3]
+    },
+    {
+      text: "Unfollow na insta",
+      stats: [0, 0, 0.2, 0.2, 0.2, 0, 0.1, 0.1]
+    },
+    {
+      text: "Skrytykuj tatuaż",
+      stats: [0.05, 0, 0.1, 0.1, 0.2, 0, 0.3, 0.1]
+    },
+    {
+      text: "Obraź Billie",
+      stats: [0.15, 0, 0.2, 0.3, 0.2, 0, 0.1, 0.3]
+    }
+  ];
+
+  const renderOffendElement = value => (
     <View>
-      <Button style={styles.button} status="basic" onPress={toggleOffend}>
-        Podważ alternatywność
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOffend}>
-        Nazwij atencjuszką
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOffend}>
-        Unfollow na insta
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOffend}>
-        Skrytykuj tatuaż
-      </Button>
-      <Button style={styles.button} status="basic" onPress={toggleOffend}>
-        Obraź Billie
-      </Button>
+      {offendDictionary.map(({ text, stats }) => (
+        <Button
+          style={styles.button}
+          status="basic"
+          onPress={() => {
+            toggleOffend();
+            setStats(stats, value);
+          }}
+        >
+          {text}
+        </Button>
+      ))}
     </View>
   );
 

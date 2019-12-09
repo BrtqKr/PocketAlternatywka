@@ -36,9 +36,17 @@ class StatsProvider extends Component {
     this.setState(prevState => {
       const newState = {
         stats: [
-          prevState.stats[0] + newStats[0],
+          prevState.stats[0] + newStats[0] >= 1
+            ? 1
+            : prevState.stats[0] + newStats[0] <= 0
+            ? 0
+            : prevState.stats[0] + newStats[0],
           prevState.stats[1] + newStats[1],
-          prevState.stats[2] + newStats[2],
+          prevState.stats[2] + newStats[2] >= 1
+            ? 1
+            : prevState.stats[2] + newStats[2] <= 0
+            ? 0
+            : prevState.stats[2] + newStats[2],
           prevState.stats[3] + newStats[3],
           prevState.stats[4] + newStats[4],
           prevState.stats[5] + newStats[5],
