@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-ui-kitten";
 import * as Progress from "react-native-progress";
+import { StatsConsumer } from "../Providers/StatsProviderConfig";
 
 const progressBarProps = {
-  progress: 0.3,
   width: 230,
   height: 8,
   color: "green",
@@ -12,72 +12,76 @@ const progressBarProps = {
   borderWidth: 2
 };
 
-function StatsView() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Stats</Text>
-      <View style={styles.barSection}>
-        <Text>Alternatywność </Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>Farba na włosach</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>Używki we krwi</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>Depresja</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>Atencja</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>Dziary</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>LilPep</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-      <View style={styles.barSection}>
-        <Text>Billie Elish</Text>
-        <Progress.Bar
-          {...progressBarProps} // spread
-        />
-      </View>
-    </View>
-  );
+class StatsView extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <StatsConsumer>
+        {value => (
+          <View style={styles.container}>
+            <Text style={styles.header}>Stats</Text>
+            <View style={styles.barSection}>
+              <Text>Alternatywność </Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>Farba na włosach</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>Używki we krwi</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+                progress={value[2]}
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>Depresja</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>Atencja</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>Dziary</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>LilPep</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+            <View style={styles.barSection}>
+              <Text>Billie Eilish</Text>
+              <Progress.Bar
+                {...progressBarProps} // spread
+              />
+            </View>
+          </View>
+        )}
+      </StatsConsumer>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   flexDirection: "column",
-  //   flexWrap: "wrap",
-  //   paddingVertical: 4,
-  //   paddingHorizontal: 4
-  // }
   container: {
     flex: 1,
     alignItems: "center",

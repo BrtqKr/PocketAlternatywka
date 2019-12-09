@@ -1,7 +1,5 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component, createContext } from "react";
 import { AsyncStorage } from "react-native";
-import { Text } from "react-native";
 
 const { Provider, Consumer } = createContext();
 
@@ -32,8 +30,6 @@ class ConfigProvider extends Component {
     try {
       const retreived = await AsyncStorage.getItem("profile");
       const item = JSON.parse(retreived);
-      console.warn(item);
-
       return item;
     } catch (error) {
       console.error(error);
@@ -60,12 +56,9 @@ class ConfigProvider extends Component {
           id: profile.id
         })
       );
-
-    console.warn(this.state);
   };
 
   render() {
-    console.log(this.state);
     return (
       <>
         <Provider

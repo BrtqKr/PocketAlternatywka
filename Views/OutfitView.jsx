@@ -7,8 +7,7 @@ import {
   ScrollView,
   Dimensions,
   Text,
-  TouchableOpacity,
-  AsyncStorage
+  TouchableOpacity
 } from "react-native";
 import * as imageDictionary from "./ProfilesAdresses";
 import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
@@ -121,9 +120,6 @@ class OutfitView extends React.Component {
                   <Text style={styles.title}>{title}</Text>
                   <TouchableOpacity
                     activeOpacity={0.7}
-                    // onPress={async () => {
-                    //   await this.setProfilePic(img);
-                    // }}
                     onPress={() => this.setProfile(id, value)}
                   >
                     <Image

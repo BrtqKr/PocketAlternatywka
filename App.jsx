@@ -10,18 +10,21 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import NavbarBottom from "./Layout/NavbarBottom";
 import { ConfigProvider } from "./Providers/ProfileProviderConfig";
+import { StatsProvider } from "./Providers/StatsProviderConfig";
 
 export const MainIcon = <Icon name="person" />;
 Platform.select({ ios: "Arial", android: "Comic Sans" });
 
 const LayoutSimpleUsageShowcase = () => (
   <LinearGradient colors={["pink", "#d14fe8"]} style={{ flex: 1 }}>
-    <ConfigProvider>
-      <ApplicationProvider mapping={mapping} theme={lightTheme}>
-        <IconRegistry icons={EvaIconsPack} />
-        <NavbarBottom />
-      </ApplicationProvider>
-    </ConfigProvider>
+    <StatsProvider>
+      <ConfigProvider>
+        <ApplicationProvider mapping={mapping} theme={lightTheme}>
+          <IconRegistry icons={EvaIconsPack} />
+          <NavbarBottom />
+        </ApplicationProvider>
+      </ConfigProvider>
+    </StatsProvider>
   </LinearGradient>
 );
 
