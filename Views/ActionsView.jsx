@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
 
@@ -113,6 +113,12 @@ function ActionsView() {
       <Button style={styles.button} status="basic" onPress={toggleOffend}>
         Unfollow na insta
       </Button>
+      <Button style={styles.button} status="basic" onPress={toggleOffend}>
+        Skrytykuj tatuaż
+      </Button>
+      <Button style={styles.button} status="basic" onPress={toggleOffend}>
+        Obraź Billie
+      </Button>
     </View>
   );
 
@@ -171,6 +177,13 @@ function ActionsView() {
               Szkaluj...
             </Button>
           }
+
+          <Button
+            style={styles.button}
+            onPress={async () => AsyncStorage.clear()}
+          >
+            Clear storage
+          </Button>
 
           <Modal
             allowBackdrop

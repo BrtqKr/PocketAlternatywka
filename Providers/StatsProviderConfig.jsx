@@ -4,59 +4,49 @@ import { AsyncStorage } from "react-native";
 
 const { Provider, Consumer } = createContext();
 
+const defaultStats = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+
 class StatsProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = { stats: [0, 0, 0, 0, 0, 0, 0, 0] };
-    //   this.loadFromStorage();
+    this.state = { loading: true, stats: null };
+    this.loadFromStorage();
   }
 
-  // loadFromStorage = async () => {
-  //   const profile = await this.getStoredProfile();
-  //   this.setState({
-  //     loading: false,
-  //     profile: profile || defaultProfile
-  //   });
-  // };
+  loadFromStorage = async () => {
+    const stats = await this.getStoredStats();
+    this.setState({
+      loading: false,
+      stats: stats || defaultStats
+    });
+  };
 
-  // getStoredProfile = async () => {
-  //   try {
-  //     const retreived = await AsyncStorage.getItem("profile");
-  //     const item = JSON.parse(retreived);
-  //     return item;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  //   return null;
-  // };
+  getStoredStats = async () => {
+    try {
+      const retreived = await AsyncStorage.getItem("stats");
+      const item = JSON.parse(retreived);
+      return item;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  };
 
   setStats = newStats => {
-    this.setState({
+    this.setState(prevState => ({
       stats: [
-        newStats[0],
-        newStats[1],
-        newStats[2],
-        newStats[3],
-        newStats[4],
-        newStats[5],
-        newStats[6],
-        newStats[7]
+        prevState.stats[0] + newStats[0],
+        prevState.stats[1] + newStats[1],
+        prevState.stats[2] + newStats[2],
+        prevState.stats[3] + newStats[3],
+        prevState.stats[4] + newStats[4],
+        prevState.stats[5] + newStats[5],
+        prevState.stats[6] + newStats[6],
+        prevState.stats[7] + newStats[7]
       ]
-    });
-    // if (this.state != null)
-    //   AsyncStorage.setItem(
-    //     "stats",
-    //     JSON.stringify({
-    //       alter: stats.alter,
-    //       hairDye: stats.hairDye,
-    //       drugs: stats.drugs,
-    //       depression: stats.depression,
-    //       attention: stats.attention,
-    //       tattoos: stats.tattoos,
-    //       lilPep: stats.lilPep,
-    //       billie: stats.billie
-    //     })
-    //   );
+    }));
+    if (this.state != null)
+      AsyncStorage.setItem("stats", JSON.stringify(this.state.stats));
   };
 
   render() {

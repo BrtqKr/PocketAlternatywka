@@ -15,7 +15,6 @@ const progressBarProps = {
 class StatsView extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 
@@ -29,12 +28,14 @@ class StatsView extends React.Component {
               <Text>Alternatywność </Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[0]}
               />
             </View>
             <View style={styles.barSection}>
               <Text>Farba na włosach</Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[1]}
               />
             </View>
             <View style={styles.barSection}>
@@ -48,30 +49,35 @@ class StatsView extends React.Component {
               <Text>Depresja</Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[3]}
               />
             </View>
             <View style={styles.barSection}>
               <Text>Atencja</Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[4]}
               />
             </View>
             <View style={styles.barSection}>
               <Text>Dziary</Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[5]}
               />
             </View>
             <View style={styles.barSection}>
               <Text>LilPep</Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[6]}
               />
             </View>
             <View style={styles.barSection}>
               <Text>Billie Eilish</Text>
               <Progress.Bar
                 {...progressBarProps} // spread
+                progress={value[7]}
               />
             </View>
           </View>
