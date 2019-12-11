@@ -9,7 +9,7 @@ import {
   Text,
   TouchableOpacity
 } from "react-native";
-import * as imageDictionary from "./ProfilesAdresses";
+import * as imageDictionary from "./ProfileAddresses";
 import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
 
 const profilePics = [

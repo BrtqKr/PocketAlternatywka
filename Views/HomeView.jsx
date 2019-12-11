@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import * as imageDictionary from "./ProfilesAdresses";
+import * as imageDictionary from "./ProfileAddresses";
 import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
 
 class HomeView extends React.Component {

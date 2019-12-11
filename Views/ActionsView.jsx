@@ -261,6 +261,7 @@ function ActionsView() {
             backdropStyle={styles.backdrop}
             onBackdropPress={toggleTake}
             visible={visible.take}
+            animationType=""
           >
             {renderTakeElement(value)}
           </Modal>
