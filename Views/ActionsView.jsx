@@ -280,7 +280,7 @@ function ActionsView() {
             onBackdropPress={toggleOrder}
             visible={visible.order}
           >
-            {renderOrderElement()}
+            {renderOrderElement(value)}
           </Modal>
 
           <Modal
@@ -289,7 +289,7 @@ function ActionsView() {
             onBackdropPress={toggleSend}
             visible={visible.send}
           >
-            {renderSendElement()}
+            {renderSendElement(value)}
           </Modal>
 
           <Modal
@@ -298,7 +298,7 @@ function ActionsView() {
             onBackdropPress={toggleOffend}
             visible={visible.offend}
           >
-            {renderOffendElement()}
+            {renderOffendElement(value)}
           </Modal>
         </View>
       )}

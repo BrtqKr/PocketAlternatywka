@@ -6,6 +6,12 @@ const { Provider, Consumer } = createContext();
 
 const defaultStats = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
 
+function checkBorders(a, b) {
+  if (a + b >= 1) return 1;
+  else if (a + b <= 0) return 0;
+  return a + b;
+}
+
 class StatsProvider extends Component {
   constructor(props) {
     super(props);
@@ -36,22 +42,14 @@ class StatsProvider extends Component {
     this.setState(prevState => {
       const newState = {
         stats: [
-          prevState.stats[0] + newStats[0] >= 1
-            ? 1
-            : prevState.stats[0] + newStats[0] <= 0
-            ? 0
-            : prevState.stats[0] + newStats[0],
-          prevState.stats[1] + newStats[1],
-          prevState.stats[2] + newStats[2] >= 1
-            ? 1
-            : prevState.stats[2] + newStats[2] <= 0
-            ? 0
-            : prevState.stats[2] + newStats[2],
-          prevState.stats[3] + newStats[3],
-          prevState.stats[4] + newStats[4],
-          prevState.stats[5] + newStats[5],
-          prevState.stats[6] + newStats[6],
-          prevState.stats[7] + newStats[7]
+          checkBorders(prevState.stats[0], newStats[0]),
+          checkBorders(prevState.stats[1], newStats[1]),
+          checkBorders(prevState.stats[2], newStats[2]),
+          checkBorders(prevState.stats[3], newStats[3]),
+          checkBorders(prevState.stats[4], newStats[4]),
+          checkBorders(prevState.stats[5], newStats[5]),
+          checkBorders(prevState.stats[6], newStats[6]),
+          checkBorders(prevState.stats[7], newStats[7])
         ]
       };
       // eslint-disable-next-line react/no-access-state-in-setstate
