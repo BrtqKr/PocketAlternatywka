@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
+import { ItemsConsumer } from "../Providers/ItemsProviderConfig";
 
 function ActionsView() {
   const [visible, setVisible] = React.useState(false);
@@ -62,24 +63,40 @@ function ActionsView() {
   );
 
   const buyDictionary = [
-    "Weed",
-    "Szmatę z lumpa",
-    "Płytę Billie Eilish",
-    "Płytę Lil Pepa",
-    "Farbę do włosów"
+    {
+      text: "Weed",
+      id: 0
+    },
+    {
+      text: "Szmatę z lumpa",
+      id: 1
+    },
+    {
+      text: "Płytę Billie Eilish",
+      id: 2
+    },
+    {
+      text: "Płytę Lil Pepa",
+      id: 3
+    },
+    {
+      text: "Farbę do włosów",
+      id: 4
+    }
   ];
 
-  const renderBuyElement = () => (
+  const renderBuyElement = itemValue => (
     <View>
-      {buyDictionary.map(text => (
+      {buyDictionary.map(item => (
         <Button
           style={styles.button}
           status="basic"
           onPress={() => {
             toggleBuy();
+            itemValue.increase(item.id);
           }}
         >
-          {text}
+          {item.text}
         </Button>
       ))}
     </View>
@@ -194,116 +211,126 @@ function ActionsView() {
   );
 
   return (
-    <StatsConsumer>
-      {value => (
-        <View style={styles.container}>
-          {
-            <Button
-              style={styles.button}
-              status="basic"
-              onPress={() => setVisible({ ...visible, take: !visible.take })}
-            >
-              Weź na...
-            </Button>
-          }
-
-          {
-            <Button
-              style={styles.button}
-              status="basic"
-              onPress={() => setVisible({ ...visible, buy: !visible.buy })}
-            >
-              Kup...
-            </Button>
-          }
-
-          {
-            <Button
-              style={styles.button}
-              status="basic"
-              onPress={() => setVisible({ ...visible, order: !visible.order })}
-            >
-              Rozkaż...
-            </Button>
-          }
-
-          {
-            <Button
-              style={styles.button}
-              status="basic"
-              onPress={() => setVisible({ ...visible, send: !visible.send })}
-            >
-              Wyślij...
-            </Button>
-          }
-
-          {
-            <Button
-              style={styles.button}
-              status="basic"
-              onPress={() =>
-                setVisible({ ...visible, offend: !visible.offend })
+    <ItemsConsumer>
+      {itemValue => (
+        <StatsConsumer>
+          {value => (
+            <View style={styles.container}>
+              {
+                <Button
+                  style={styles.button}
+                  status="basic"
+                  onPress={() =>
+                    setVisible({ ...visible, take: !visible.take })
+                  }
+                >
+                  Weź na...
+                </Button>
               }
-            >
-              Szkaluj...
-            </Button>
-          }
 
-          <Button
-            style={styles.button}
-            onPress={async () => AsyncStorage.clear()}
-          >
-            Clear storage
-          </Button>
+              {
+                <Button
+                  style={styles.button}
+                  status="basic"
+                  onPress={() => setVisible({ ...visible, buy: !visible.buy })}
+                >
+                  Kup...
+                </Button>
+              }
 
-          <Modal
-            allowBackdrop
-            backdropStyle={styles.backdrop}
-            onBackdropPress={toggleTake}
-            visible={visible.take}
-            animationType=""
-          >
-            {renderTakeElement(value)}
-          </Modal>
+              {
+                <Button
+                  style={styles.button}
+                  status="basic"
+                  onPress={() =>
+                    setVisible({ ...visible, order: !visible.order })
+                  }
+                >
+                  Rozkaż...
+                </Button>
+              }
 
-          <Modal
-            allowBackdrop
-            backdropStyle={styles.backdrop}
-            onBackdropPress={toggleBuy}
-            visible={visible.buy}
-          >
-            {renderBuyElement()}
-          </Modal>
+              {
+                <Button
+                  style={styles.button}
+                  status="basic"
+                  onPress={() =>
+                    setVisible({ ...visible, send: !visible.send })
+                  }
+                >
+                  Wyślij...
+                </Button>
+              }
 
-          <Modal
-            allowBackdrop
-            backdropStyle={styles.backdrop}
-            onBackdropPress={toggleOrder}
-            visible={visible.order}
-          >
-            {renderOrderElement(value)}
-          </Modal>
+              {
+                <Button
+                  style={styles.button}
+                  status="basic"
+                  onPress={() =>
+                    setVisible({ ...visible, offend: !visible.offend })
+                  }
+                >
+                  Szkaluj...
+                </Button>
+              }
 
-          <Modal
-            allowBackdrop
-            backdropStyle={styles.backdrop}
-            onBackdropPress={toggleSend}
-            visible={visible.send}
-          >
-            {renderSendElement(value)}
-          </Modal>
+              <Button
+                style={styles.button}
+                onPress={async () => AsyncStorage.clear()}
+              >
+                Clear storage
+              </Button>
 
-          <Modal
-            allowBackdrop
-            backdropStyle={styles.backdrop}
-            onBackdropPress={toggleOffend}
-            visible={visible.offend}
-          >
-            {renderOffendElement(value)}
-          </Modal>
-        </View>
+              <Modal
+                allowBackdrop
+                backdropStyle={styles.backdrop}
+                onBackdropPress={toggleTake}
+                visible={visible.take}
+                animationType=""
+              >
+                {renderTakeElement(value)}
+              </Modal>
+
+              <Modal
+                allowBackdrop
+                backdropStyle={styles.backdrop}
+                onBackdropPress={toggleBuy}
+                visible={visible.buy}
+              >
+                {renderBuyElement(itemValue)}
+              </Modal>
+
+              <Modal
+                allowBackdrop
+                backdropStyle={styles.backdrop}
+                onBackdropPress={toggleOrder}
+                visible={visible.order}
+              >
+                {renderOrderElement(value)}
+              </Modal>
+
+              <Modal
+                allowBackdrop
+                backdropStyle={styles.backdrop}
+                onBackdropPress={toggleSend}
+                visible={visible.send}
+              >
+                {renderSendElement(value)}
+              </Modal>
+
+              <Modal
+                allowBackdrop
+                backdropStyle={styles.backdrop}
+                onBackdropPress={toggleOffend}
+                visible={visible.offend}
+              >
+                {renderOffendElement(value)}
+              </Modal>
+            </View>
+          )}
+        </StatsConsumer>
       )}
-    </StatsConsumer>
+    </ItemsConsumer>
   );
 }
 

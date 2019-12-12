@@ -2,85 +2,50 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 import * as itemsDictionary from "./Items";
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
+import { ItemsConsumer } from "../Providers/ItemsProviderConfig";
 
 class InventoryView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: [
-        {
-          name: "weed",
-          img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
-          amount: 3,
-          id: 0
-        },
-        {
-          name: "szmata z lumpa",
-          img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
-          amount: 9,
-          id: 1
-        },
-        {
-          name: "billie eilish CD",
-          img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
-          amount: 3,
-          id: 2
-        },
-        {
-          name: "lil pep CD",
-          img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
-          amount: 44,
-          id: 3
-        },
-        {
-          name: "farba",
-          img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
-          amount: 44,
-          id: 4
-        }
-      ]
-    };
+    this.state = {};
   }
-
-  decrease = id => {
-    const x = this.state.items.map(i =>
-      i.id === id ? { ...i, amount: i.amount - 1 } : i
-    );
-    this.setState({ items: x });
-  };
 
   render() {
     const byAmount = ({ amount }) => amount > 0;
 
     return (
-      <StatsConsumer>
-        {value => {
-          return (
-            <View style={styles.container}>
-              {this.state.items.filter(byAmount).map(inventoryItem => (
-                <ItemHolder
-                  element={inventoryItem}
-                  decrease={this.decrease}
-                  value={value}
-                />
-              ))}
-            </View>
-          );
-        }}
-      </StatsConsumer>
+      <ItemsConsumer>
+        {itemValue => (
+          <StatsConsumer>
+            {statsValue => {
+              return (
+                <View style={styles.container}>
+                  {itemValue.items.filter(byAmount).map(inventoryItem => (
+                    <ItemHolder
+                      element={inventoryItem}
+                      decrease={itemValue.decrease}
+                      statsValue={statsValue}
+                      itemValue={itemValue}
+                    />
+                  ))}
+                </View>
+              );
+            }}
+          </StatsConsumer>
+        )}
+      </ItemsConsumer>
     );
   }
 }
 
-function ItemHolder({ element: { id, amount, img, stats }, decrease, value }) {
+function ItemHolder({
+  element: { id, amount, img, stats },
+  statsValue,
+  itemValue
+}) {
   const onPress = () => {
-    decrease(id);
-    value.setStats(stats);
+    itemValue.decrease(id);
+    statsValue.setStats(stats);
   };
 
   return (
