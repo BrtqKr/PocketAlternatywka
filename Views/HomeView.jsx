@@ -6,7 +6,6 @@ import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
 class HomeView extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 

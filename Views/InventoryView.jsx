@@ -25,6 +25,7 @@ class InventoryView extends React.Component {
                       element={inventoryItem}
                       statsValue={statsValue}
                       itemValue={itemValue}
+                      key={inventoryItem.id}
                     />
                   ))}
                 </View>
@@ -49,7 +50,7 @@ function ItemHolder({
 
   return (
     <TouchableOpacity activeOpacity={0.7} style={styles.item} onPress={onPress}>
-      <Image source={img} style={styles.picture} />
+      <Image source={itemsDictionary[img]} style={styles.picture} />
       <Text style={styles.amount}>{amount}</Text>
     </TouchableOpacity>
   );

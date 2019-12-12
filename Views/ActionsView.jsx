@@ -49,6 +49,7 @@ function ActionsView() {
     <View>
       {takeDictionary.map(({ text, stats }) => (
         <Button
+          key={text}
           style={styles.button}
           status="basic"
           onPress={() => {
@@ -89,6 +90,7 @@ function ActionsView() {
     <View>
       {buyDictionary.map(item => (
         <Button
+          key={item.id}
           style={styles.button}
           status="basic"
           onPress={() => {
@@ -125,6 +127,7 @@ function ActionsView() {
     <View>
       {orderDictionary.map(({ text, stats }) => (
         <Button
+          key={text}
           style={styles.button}
           status="basic"
           onPress={() => {
@@ -157,6 +160,7 @@ function ActionsView() {
     <View>
       {sendDictionary.map(({ text, stats }) => (
         <Button
+          key={text}
           style={styles.button}
           status="basic"
           onPress={() => {
@@ -197,6 +201,7 @@ function ActionsView() {
     <View>
       {offendDictionary.map(({ text, stats }) => (
         <Button
+          key={text}
           style={styles.button}
           status="basic"
           onPress={() => {
