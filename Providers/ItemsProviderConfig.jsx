@@ -12,13 +12,13 @@ class ItemsProvider extends Component {
       items: [
         {
           img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
+          stats: [0.4, 0, 0, -0.2, 0.1, 0, 0, 0],
           amount: 3,
           id: 0
         },
         {
           img: itemsDictionary.Weed,
-          stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
+          stats: [-0.2, 0, 0, -0.2, 0.1, 0, 0, 0],
           amount: 9,
           id: 1
         },

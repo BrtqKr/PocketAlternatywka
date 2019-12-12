@@ -23,7 +23,6 @@ class InventoryView extends React.Component {
                   {itemValue.items.filter(byAmount).map(inventoryItem => (
                     <ItemHolder
                       element={inventoryItem}
-                      decrease={itemValue.decrease}
                       statsValue={statsValue}
                       itemValue={itemValue}
                     />
