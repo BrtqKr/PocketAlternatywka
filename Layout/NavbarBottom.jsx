@@ -14,9 +14,11 @@ import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import OutfitView from "../Views/OutfitView";
 import HomeView from "../Views/HomeView";
-import ActionsView from "../Views/ActionsView";
 import StatsView from "../Views/StatsView";
 import InventoryView from "../Views/InventoryView";
+import ActionsView from "../Views/Actions/ActionView";
+
+import RequestView from "../Views/apiRequests/RequestView";
 
 export const MainIcon = <Icon name="person" />;
 
@@ -40,7 +42,8 @@ const TabNavigator = createBottomTabNavigator({
   Stats: StatsView,
   Home: HomeView,
   Actions: ActionsView,
-  Inventory: InventoryView
+  Inventory: InventoryView,
+  Requests: RequestView
 });
 
 export default createAppContainer(TabNavigator);
