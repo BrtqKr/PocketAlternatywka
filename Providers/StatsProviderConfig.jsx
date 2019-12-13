@@ -15,14 +15,13 @@ function checkBorders(a, b) {
 class StatsProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true, stats: null };
+    this.state = { stats: null };
     this.loadFromStorage();
   }
 
   loadFromStorage = async () => {
     const stats = await this.getStoredStats();
     this.setState({
-      loading: false,
       stats: stats || defaultStats
     });
   };
@@ -33,6 +32,7 @@ class StatsProvider extends Component {
       const item = JSON.parse(retreived);
       return item;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return null;

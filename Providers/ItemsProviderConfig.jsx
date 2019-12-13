@@ -59,7 +59,8 @@ class ItemsProvider extends Component {
       const inventory = JSON.parse(retreived);
       return inventory;
     } catch (error) {
-      console.error(error);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
     return null;
   };

@@ -10,8 +10,6 @@ import SendButton from "./components/SendButton";
 import OffendButton from "./components/OffendButton";
 
 function ActionsView() {
-  const [visible, setVisible] = React.useState(false);
-
   return (
     <ItemsConsumer>
       {itemValue => (
