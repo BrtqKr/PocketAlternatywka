@@ -12,6 +12,7 @@ import NavbarBottom from "./Layout/NavbarBottom";
 import { ConfigProvider } from "./Providers/ProfileProviderConfig";
 import { StatsProvider } from "./Providers/StatsProviderConfig";
 import { ItemsProvider } from "./Providers/ItemsProviderConfig";
+import { CoinsProvider } from "./Providers/CoinsProviderConfig";
 
 export const MainIcon = <Icon name="person" />;
 Platform.select({ ios: "Arial", android: "Comic Sans" });
@@ -20,12 +21,14 @@ const LayoutSimpleUsageShowcase = () => (
   <LinearGradient colors={["pink", "#d14fe8"]} style={{ flex: 1 }}>
     <ItemsProvider>
       <StatsProvider>
-        <ConfigProvider>
-          <ApplicationProvider mapping={mapping} theme={lightTheme}>
-            <IconRegistry icons={EvaIconsPack} />
-            <NavbarBottom />
-          </ApplicationProvider>
-        </ConfigProvider>
+        <CoinsProvider>
+          <ConfigProvider>
+            <ApplicationProvider mapping={mapping} theme={lightTheme}>
+              <IconRegistry icons={EvaIconsPack} />
+              <NavbarBottom />
+            </ApplicationProvider>
+          </ConfigProvider>
+        </CoinsProvider>
       </StatsProvider>
     </ItemsProvider>
   </LinearGradient>

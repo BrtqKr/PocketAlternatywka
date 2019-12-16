@@ -1,74 +1,30 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-  AsyncStorage
-} from "react-native";
-import axios from "react-native-axios";
+import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
+import { CoinsConsumer } from "../Providers/CoinsProviderConfig";
 
 class CoinsBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: true,
-      datetime: "",
-      timezone: "",
-      error: false,
-      coins: ""
-    };
+    this.state = {};
   }
-
-  async componentDidMount() {
-    try {
-      this.setState({ loading: true });
-      const resp = await axios.get("http://worldtimeapi.org/api/ip");
-
-      if (resp)
-        this.setState({
-          loading: false,
-          datetime: resp.data.datetime,
-          timezone: resp.data.timezone,
-          coins: 1000
-        });
-
-      // if (this.state != null)
-      // AsyncStorage.setItem("stats", JSON.stringify(newState.stats));
-
-      const date = new Date(this.state.datetime);
-
-      const storedDate = this.getStoredItem("date");
-      const storedTimezone = this.getStoredItem("timezone");
-
-      if (storedTimezone !== this.state.timezone)
-        console.warn(this.state.datetime);
-    } catch (err) {
-      this.setState({ error: err, loading: false });
-    }
-  }
-
-  getStoredItem = async key => {
-    try {
-      const retreived = await AsyncStorage.getItem(key);
-      const item = JSON.parse(retreived);
-      return item;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-    return null;
-  };
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.loading ? (
-          <ActivityIndicator size="small" color="green" />
-        ) : (
-          <Text>{this.state.coins}</Text>
-        )}
-        <Text>{this.state.datetime}</Text>
+        <CoinsConsumer>
+          {coinsProperties => {
+            return (
+              <View style={styles.container}>
+                {this.state.loading ? (
+                  <ActivityIndicator size="small" color="green" />
+                ) : (
+                  <Text>{coinsProperties.coins}</Text>
+                )}
+                <Text>{coinsProperties.date}</Text>
+              </View>
+            );
+          }}
+        </CoinsConsumer>
       </View>
     );
   }
