@@ -42,8 +42,8 @@ const TabNavigator = createBottomTabNavigator({
   Stats: StatsView,
   Home: HomeView,
   Actions: ActionsView,
-  Inventory: InventoryView,
-  Requests: RequestView
+  Inventory: InventoryView
+  // Requests: RequestView
 });
 
 export default createAppContainer(TabNavigator);

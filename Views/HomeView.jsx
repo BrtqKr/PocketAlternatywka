@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import * as imageDictionary from "./ProfileAddresses";
 import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
+import CoinsBar from "../Layout/CoinsBar";
 
 class HomeView extends React.Component {
   constructor(props) {
@@ -16,6 +17,8 @@ class HomeView extends React.Component {
           {value => {
             return (
               <View style={styles.container}>
+                <CoinsBar />
+
                 <Text style={styles.title}>{value.title}</Text>
 
                 <Image
@@ -54,6 +57,10 @@ const styles = StyleSheet.create({
   bottomText: {
     marginTop: 10,
     fontSize: 22
+  },
+  coinBar: {
+    width: 30,
+    height: 30
   }
 });
 
