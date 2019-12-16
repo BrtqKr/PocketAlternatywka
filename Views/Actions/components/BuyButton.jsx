@@ -1,27 +1,33 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
+import { CoinsConsumer } from "../../../Providers/CoinsProviderConfig";
 
 const buyDictionary = [
   {
     text: "Weed",
-    id: 0
+    id: 0,
+    price: 200
   },
   {
     text: "Szmatę z lumpa",
-    id: 1
+    id: 1,
+    price: 120
   },
   {
     text: "Płytę Billie Eilish",
-    id: 2
+    id: 2,
+    price: 50
   },
   {
     text: "Płytę Lil Pepa",
-    id: 3
+    id: 3,
+    price: 50
   },
   {
     text: "Farbę do włosów",
-    id: 4
+    id: 4,
+    price: 35
   }
 ];
 
@@ -30,19 +36,28 @@ export default function BuyButton(props) {
 
   const renderBuyElement = () => (
     <View>
-      {buyDictionary.map(item => (
-        <Button
-          key={item.id}
-          style={styles.button}
-          status="basic"
-          onPress={() => {
-            setVisibility(!visible);
-            props.itemValue.increase(item.id);
-          }}
-        >
-          {item.text}
-        </Button>
-      ))}
+      <CoinsConsumer>
+        {coinsProperties => {
+          return (
+            <View>
+              {buyDictionary.map(item => (
+                <Button
+                  key={item.id}
+                  style={styles.button}
+                  status="basic"
+                  onPress={() => {
+                    setVisibility(!visible);
+                    props.itemValue.increase(item.id);
+                    coinsProperties.spendCoins(item.price);
+                  }}
+                >
+                  {item.text}
+                </Button>
+              ))}
+            </View>
+          );
+        }}
+      </CoinsConsumer>
     </View>
   );
 

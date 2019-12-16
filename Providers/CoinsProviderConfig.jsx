@@ -15,11 +15,10 @@ class CoinsProvider extends Component {
       date: null
     };
     // AsyncStorage.setItem("coins", JSON.stringify(this.state.coins));
-
-    this.loadFromStorage();
   }
 
   async componentDidMount() {
+    await this.loadFromStorage();
     try {
       this.setState({ loading: true });
       const resp = await axios.get("http://worldtimeapi.org/api/ip");
@@ -28,9 +27,7 @@ class CoinsProvider extends Component {
       const storedDate = new Date(this.state.date);
 
       if (this.state.date) {
-        console.warn(date, storedDate);
-        console.warn(this.state.coins);
-        if ((date - storedDate) / 1000 > 5) {
+        if ((date - storedDate) / 1000 > 86400) {
           AsyncStorage.setItem("date", JSON.stringify(date));
           this.increaseCoins();
         }
@@ -84,8 +81,21 @@ class CoinsProvider extends Component {
   };
 
   increaseCoins = () => {
-    this.setState(prevState => ({ coins: prevState.coins + 100 }));
-    AsyncStorage.setItem("coins", JSON.stringify(this.state.coins));
+    this.setState(
+      prevState => ({ coins: prevState.coins + 100 }),
+      () => {
+        AsyncStorage.setItem("coins", JSON.stringify(this.state.coins));
+      }
+    );
+  };
+
+  spendCoins = amount => {
+    const decreased = this.state.coins - amount;
+    if (decreased < 0) console.warn("Not enough money");
+    else {
+      this.setState({ coins: decreased });
+      AsyncStorage.setItem("coins", JSON.stringify(decreased));
+    }
   };
 
   render() {
@@ -94,7 +104,8 @@ class CoinsProvider extends Component {
         <Provider
           value={{
             coins: this.state.coins,
-            date: this.state.date
+            date: this.state.date,
+            spendCoins: amount => this.spendCoins(amount)
           }}
         >
           {this.props.children}

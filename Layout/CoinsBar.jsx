@@ -20,7 +20,6 @@ class CoinsBar extends React.Component {
                 ) : (
                   <Text>{coinsProperties.coins}</Text>
                 )}
-                <Text>{coinsProperties.date}</Text>
               </View>
             );
           }}
@@ -33,9 +32,11 @@ class CoinsBar extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap"
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+    flexDirection: "row-reverse",
+    margin: 30
   },
   picture: {
     width: 300,

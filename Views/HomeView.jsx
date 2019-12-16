@@ -12,26 +12,23 @@ class HomeView extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ConfigConsumer>
-          {value => {
-            return (
-              <View style={styles.container}>
-                <CoinsBar />
+      <ConfigConsumer>
+        {value => {
+          return (
+            <View style={styles.container}>
+              <CoinsBar />
+              <Text style={styles.title}>{value.title}</Text>
 
-                <Text style={styles.title}>{value.title}</Text>
+              <Image
+                source={imageDictionary[value.img]}
+                style={styles.picture}
+              />
 
-                <Image
-                  source={imageDictionary[value.img]}
-                  style={styles.picture}
-                />
-
-                <Text style={styles.bottomText}>{value.description}</Text>
-              </View>
-            );
-          }}
-        </ConfigConsumer>
-      </View>
+              <Text style={styles.bottomText}>{value.description}</Text>
+            </View>
+          );
+        }}
+      </ConfigConsumer>
     );
   }
 }
@@ -41,7 +38,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    marginBottom: 300
   },
   picture: {
     width: 300,
