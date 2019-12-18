@@ -37,14 +37,19 @@ export const MainIcon = <Icon name="person" />;
 //   </SafeAreaView>
 // );
 
-const TabNavigator = createBottomTabNavigator({
-  Outfit: OutfitView,
-  Stats: StatsView,
-  Home: HomeView,
-  Actions: ActionsView,
-  Inventory: InventoryView
-  // Requests: RequestView
-});
+const TabNavigator = createBottomTabNavigator(
+  {
+    Outfit: OutfitView,
+    Stats: StatsView,
+    Home: HomeView,
+    Actions: ActionsView,
+    Inventory: InventoryView
+    // Requests: RequestView
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
 
 export default createAppContainer(TabNavigator);
 

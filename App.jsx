@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Platform } from "react-native";
 import { mapping, light as lightTheme } from "@eva-design/eva";
 import {
@@ -17,21 +17,23 @@ import { CoinsProvider } from "./Providers/CoinsProviderConfig";
 export const MainIcon = <Icon name="person" />;
 Platform.select({ ios: "Arial", android: "Comic Sans" });
 
-const LayoutSimpleUsageShowcase = () => (
-  <LinearGradient colors={["pink", "#d14fe8"]} style={{ flex: 1 }}>
-    <ItemsProvider>
-      <StatsProvider>
-        <CoinsProvider>
-          <ConfigProvider>
-            <ApplicationProvider mapping={mapping} theme={lightTheme}>
-              <IconRegistry icons={EvaIconsPack} />
-              <NavbarBottom />
-            </ApplicationProvider>
-          </ConfigProvider>
-        </CoinsProvider>
-      </StatsProvider>
-    </ItemsProvider>
-  </LinearGradient>
-);
+function LayoutSimpleUsageShowcase() {
+  return (
+    <LinearGradient colors={["pink", "#d14fe8"]} style={{ flex: 1 }}>
+      <ItemsProvider>
+        <StatsProvider>
+          <CoinsProvider>
+            <ConfigProvider>
+              <ApplicationProvider mapping={mapping} theme={lightTheme}>
+                <IconRegistry icons={EvaIconsPack} />
+                <NavbarBottom />
+              </ApplicationProvider>
+            </ConfigProvider>
+          </CoinsProvider>
+        </StatsProvider>
+      </ItemsProvider>
+    </LinearGradient>
+  );
+}
 
 export default LayoutSimpleUsageShowcase;

@@ -1,30 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-ui-kitten";
-import * as Progress from "react-native-progress";
+import Constants from "expo-constants";
+
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
+import StatsBar from "../Layout/StatsBar";
 
-const progressBarProps = {
-  width: 230,
-  height: 8,
-  color: "green",
-  borderColor: "black",
-  borderWidth: 2
-};
+function StatsView(props) {
+  const [reload, setReload] = useState(false);
 
-class StatsView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  useEffect(() => {
+    setReload(true);
+    const didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        setReload(false);
+      }
+    );
+    return () => {
+      didFocusSubscription.remove();
+    };
+  }, [props.navigation]);
 
-  render() {
-    return (
-      <StatsConsumer>
-        {value => (
-          <View style={styles.container}>
-            <Text style={styles.header}>Stats</Text>
-            <View style={styles.barSection}>
+  return (
+    <StatsConsumer>
+      {value => (
+        <View style={styles.container}>
+          <Text style={styles.header}>Stats</Text>
+
+          <StatsBar barName="Alternatywność" value={value[0]} />
+          <StatsBar barName="Farba na włosach" value={value[1]} />
+          <StatsBar barName="Używki we krwi" value={value[2]} />
+          <StatsBar barName="Depresja" value={value[3]} />
+          <StatsBar barName="Atencja" value={value[4]} />
+          <StatsBar barName="Dziary" value={value[5]} />
+          <StatsBar barName="LilPep" value={value[6]} />
+          <StatsBar barName="Billie Eilish" value={value[7]} />
+
+          {/* <View style={styles.barSection}>
               <Text>Alternatywność </Text>
               <Progress.Bar
                 {...progressBarProps} // spread
@@ -79,12 +92,11 @@ class StatsView extends React.Component {
                 {...progressBarProps} // spread
                 progress={value[7]}
               />
-            </View>
-          </View>
-        )}
-      </StatsConsumer>
-    );
-  }
+            </View> */}
+        </View>
+      )}
+    </StatsConsumer>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -94,15 +106,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap"
   },
+  header: {
+    paddingTop: Constants.statusBarHeight,
+    fontSize: 20
+  },
   barText: {
     alignSelf: "flex-start"
   },
   barSection: {
     marginBottom: 30
-  },
-  header: {
-    fontSize: 20,
-    marginBottom: 15
   }
 });
 

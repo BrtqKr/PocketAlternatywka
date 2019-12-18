@@ -14,7 +14,6 @@ class CoinsProvider extends Component {
       error: false,
       date: null
     };
-    // AsyncStorage.setItem("coins", JSON.stringify(this.state.coins));
   }
 
   async componentDidMount() {
