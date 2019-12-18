@@ -1,5 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Text, View, StyleSheet, Animated } from "react-native";
+import { Text, View, StyleSheet, Animated, Dimensions } from "react-native";
+import { withNavigationFocus } from "react-navigation";
+
+const screenWidth = Dimensions.get("window").width;
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -26,22 +29,20 @@ const StatsBar = props => {
   const [progress, setProgress] = useState(props.value);
   useInterval(() => {
     if (progress < props.value) {
-      setProgress(progress + props.value);
+      setProgress(progress + 0.05);
     }
-  }, 1000);
+  }, 100);
 
   useEffect(() => {
+    animation.current.setValue(0);
     Animated.timing(animation.current, {
       toValue: progress,
-      duration: 1000
+      duration: 1000,
+      useNativeDriver: true
     }).start();
-  }, [progress]);
+  }, [progress, props.isFocused]);
 
-  const width = animation.current.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0%", "100%"],
-    extrapolate: "clamp"
-  });
+  const scaleX = animation.current;
 
   return (
     <View style={styles.container}>
@@ -49,7 +50,20 @@ const StatsBar = props => {
       <View style={styles.progressBar}>
         <Animated.View
           style={
-            ([StyleSheet.absoluteFill], { backgroundColor: "#8BED4F", width })
+            ([StyleSheet.absoluteFill],
+            {
+              backgroundColor: "#8BED4F",
+              width: "100%",
+              transform: [
+                {
+                  translateX: Animated.multiply(
+                    Animated.subtract(scaleX, 1),
+                    0.5 * (screenWidth * 0.85 - 16)
+                  )
+                },
+                { scaleX }
+              ]
+            })
           }
         />
       </View>
@@ -57,7 +71,7 @@ const StatsBar = props => {
   );
 };
 
-export default StatsBar;
+export default withNavigationFocus(StatsBar);
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderColor: "#000",
     borderWidth: 2,
-    borderRadius: 5
+    borderRadius: 3
   },
   barText: {
     alignSelf: "flex-start",

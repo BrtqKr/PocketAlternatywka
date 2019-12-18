@@ -7,15 +7,10 @@ import { StatsConsumer } from "../Providers/StatsProviderConfig";
 import StatsBar from "../Layout/StatsBar";
 
 function StatsView(props) {
-  const [reload, setReload] = useState(false);
-
   useEffect(() => {
-    setReload(true);
     const didFocusSubscription = props.navigation.addListener(
       "didFocus",
-      () => {
-        setReload(false);
-      }
+      () => {}
     );
     return () => {
       didFocusSubscription.remove();
