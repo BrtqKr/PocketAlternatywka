@@ -1,46 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Text, View, StyleSheet, Animated, Dimensions } from "react-native";
 import { withNavigationFocus } from "react-navigation";
 
 const screenWidth = Dimensions.get("window").width;
 
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      const id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
-
 const StatsBar = props => {
   const animation = useRef(new Animated.Value(0));
-  const [progress, setProgress] = useState(props.value);
-  useInterval(() => {
-    if (progress < props.value) {
-      setProgress(progress + 0.05);
-    }
-  }, 100);
 
   useEffect(() => {
     animation.current.setValue(0);
     Animated.timing(animation.current, {
-      toValue: progress,
-      duration: 1000,
+      toValue: props.value,
+      duration: 1200,
       useNativeDriver: true
     }).start();
-  }, [progress, props.isFocused]);
+  }, [props.value, props.isFocused]);
 
   const scaleX = animation.current;
 
@@ -52,7 +26,13 @@ const StatsBar = props => {
           style={
             ([StyleSheet.absoluteFill],
             {
-              backgroundColor: "#8BED4F",
+              backgroundColor:
+                // eslint-disable-next-line no-nested-ternary
+                props.value > 0.7
+                  ? "#43c916"
+                  : props.value > 0.4
+                  ? "#f2d30a"
+                  : "#d41d0d",
               width: "100%",
               transform: [
                 {
@@ -86,8 +66,9 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "#000",
-    borderWidth: 2,
-    borderRadius: 3
+    borderWidth: 1.5,
+    borderRadius: 10,
+    overflow: "hidden"
   },
   barText: {
     alignSelf: "flex-start",

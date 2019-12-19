@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
     width: Dimensions.get("window").width

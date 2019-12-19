@@ -19,7 +19,7 @@ Platform.select({ ios: "Arial", android: "Comic Sans" });
 
 function LayoutSimpleUsageShowcase() {
   return (
-    <LinearGradient colors={["pink", "#d14fe8"]} style={{ flex: 1 }}>
+    <LinearGradient colors={["pink", "#e07cf2"]} style={{ flex: 1 }}>
       <ItemsProvider>
         <StatsProvider>
           <CoinsProvider>

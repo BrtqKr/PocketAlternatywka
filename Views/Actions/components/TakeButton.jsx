@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
 
 const takeDictionary = [
@@ -29,7 +29,7 @@ export default function TakeButton(props) {
       {takeDictionary.map(({ text, stats }) => (
         <Button
           key={text}
-          style={styles.button}
+          style={styles.modalButton}
           status="basic"
           onPress={() => {
             setVisibility(!visible);
@@ -68,13 +68,22 @@ const styles = StyleSheet.create({
   button: {
     margin: 15,
     width: 210,
-    backgroundColor: "gray"
+    backgroundColor: "#dedede",
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center"
   },
   modalContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: 256,
     padding: 16
+  },
+  modalButton: {
+    margin: 15,
+    backgroundColor: "#9e9e9e",
+    width: 210,
+    borderRadius: 15
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.7)"

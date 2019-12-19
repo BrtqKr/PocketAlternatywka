@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-ui-kitten";
 import Constants from "expo-constants";
@@ -6,17 +6,7 @@ import Constants from "expo-constants";
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
 import StatsBar from "../Layout/StatsBar";
 
-function StatsView(props) {
-  useEffect(() => {
-    const didFocusSubscription = props.navigation.addListener(
-      "didFocus",
-      () => {}
-    );
-    return () => {
-      didFocusSubscription.remove();
-    };
-  }, [props.navigation]);
-
+function StatsView() {
   return (
     <StatsConsumer>
       {value => (
@@ -31,63 +21,6 @@ function StatsView(props) {
           <StatsBar barName="Dziary" value={value[5]} />
           <StatsBar barName="LilPep" value={value[6]} />
           <StatsBar barName="Billie Eilish" value={value[7]} />
-
-          {/* <View style={styles.barSection}>
-              <Text>Alternatywność </Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[0]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Farba na włosach</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[1]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Używki we krwi</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[2]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Depresja</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[3]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Atencja</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[4]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Dziary</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[5]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>LilPep</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[6]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Billie Eilish</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[7]}
-              />
-            </View> */}
         </View>
       )}
     </StatsConsumer>
