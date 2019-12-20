@@ -8,6 +8,8 @@ import {
 } from "react-native-ui-kitten";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { Notifications } from "expo";
+
 import NavbarBottom from "./Layout/NavbarBottom";
 import { ConfigProvider } from "./Providers/ProfileProviderConfig";
 import { StatsProvider } from "./Providers/StatsProviderConfig";
@@ -40,12 +42,20 @@ class LayoutSimpleUsageShowcase extends React.Component {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
-  handleAppStateChange = nextAppState => {
+  handleAppStateChange = async nextAppState => {
     if (
       this.state.appState === "active" &&
       nextAppState.match(/inactive|background/)
     ) {
-      handleButtonPress();
+      const notificationId = handleButtonPress();
+      this.setState({ idPromise: notificationId });
+    } else if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      this.state.idPromise.then(value =>
+        Notifications.cancelScheduledNotificationAsync(value)
+      );
     }
     this.setState({ appState: nextAppState });
   };

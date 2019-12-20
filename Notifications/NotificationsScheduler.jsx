@@ -3,7 +3,10 @@ import { Permissions } from "expo-permissions";
 import { Notifications } from "expo";
 
 export async function getiOSNotificationPermission() {
-  const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  const promise = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  const { status } = promise.then(value => {
+    return value;
+  });
   if (status !== "granted") {
     return;
   }
@@ -27,7 +30,7 @@ export function handleButtonPress() {
   sendAfterFiveSeconds += 5000;
 
   const schedulingOptions = { time: sendAfterFiveSeconds };
-  Notifications.scheduleLocalNotificationAsync(
+  return Notifications.scheduleLocalNotificationAsync(
     localnotification,
     schedulingOptions
   );
