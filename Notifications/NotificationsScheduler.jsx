@@ -1,12 +1,9 @@
 import { Alert } from "react-native";
-import { Permissions } from "expo-permissions";
+import * as Permissions from "expo-permissions";
 import { Notifications } from "expo";
 
 export async function getiOSNotificationPermission() {
-  const promise = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  const { status } = promise.then(value => {
-    return value;
-  });
+  const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   if (status !== "granted") {
     return;
   }
