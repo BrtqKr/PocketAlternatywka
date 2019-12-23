@@ -1,23 +1,28 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
 
 const orderDictionary = [
   {
     text: "Usiądź na mordzie",
-    stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0]
+    stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
+    summary: "Ostatnio każda tak robi, ale okej...niech ci kurwa będzie..."
   },
   {
     text: "Zrób dziarkę",
-    stats: [0.15, 0, 0, 0.1, 0.1, 0.3, 0.1, 0.1]
+    stats: [0.15, 0, 0, 0.1, 0.1, 0.3, 0.1, 0.1],
+    summary: "Ale jak to kurwa tężec!?"
   },
   {
-    text: "Pokaż stopy",
-    stats: [0, 0, 0, -0.1, 0.05, 0, 0, 0]
+    text: "Pokaż st00pky",
+    stats: [0, 0, 0, -0.1, 0.05, 0, 0, 0],
+    summary: "Tylko ostrożnie, bo dawno niemyte -,-'"
   },
   {
     text: "Zrób filtry na insta",
-    stats: [0.05, 0, 0.15, 0.05, 0, 0, 0, 0]
+    stats: [0.05, 0, 0.15, 0.05, 0, 0, 0, 0],
+    summary:
+      "Okej kurwa, ale przynajmniej mi zielsko załatw jak już mam być kreatywna..."
   }
 ];
 
@@ -30,7 +35,7 @@ export default function TakeButton(props) {
 
   const renderOrderElement = value => (
     <View>
-      {orderDictionary.map(({ text, stats }) => (
+      {orderDictionary.map(({ text, stats, summary }) => (
         <Button
           key={text}
           style={styles.modalButton}
@@ -38,6 +43,12 @@ export default function TakeButton(props) {
           onPress={() => {
             setVisibility(!visible);
             setStats(stats, value);
+            Alert.alert(
+              text,
+              summary,
+              [{ text: "OK ;_;", onPress: () => console.log("OK Pressed") }],
+              { cancelable: false }
+            );
           }}
         >
           {text}

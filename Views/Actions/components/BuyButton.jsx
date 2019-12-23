@@ -1,5 +1,6 @@
+/* eslint-disable prefer-template */
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
 import { CoinsConsumer } from "../../../Providers/CoinsProviderConfig";
 
@@ -47,8 +48,32 @@ export default function BuyButton(props) {
                   status="basic"
                   onPress={() => {
                     setVisibility(!visible);
-                    props.itemValue.increase(item.id);
-                    coinsProperties.spendCoins(item.price);
+
+                    Alert.alert(
+                      "Sklep",
+                      "Czy na pewno chcesz kupić ".concat(
+                        item.text,
+                        " za ",
+                        item.price,
+                        " DogeCoins?"
+                      ),
+                      [
+                        {
+                          text: "OK ;_;",
+                          onPress: () => {
+                            console.log("OK Pressed");
+                            props.itemValue.increase(item.id);
+                            coinsProperties.spendCoins(item.price);
+                          }
+                        },
+                        {
+                          text: "Anuluj",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        }
+                      ],
+                      { cancelable: false }
+                    );
                   }}
                 >
                   {item.text}

@@ -5,15 +5,19 @@ import { Button, Modal } from "react-native-ui-kitten";
 const takeDictionary = [
   {
     text: "Wixapol",
-    stats: [0, 0, 0.1, 0.1, 0.15, 0, 0, 0]
+    stats: [0, 0, 0.1, 0.1, -0.2, 0, 0, 0],
+    summary:
+      "Anon czemu mi kurwa robisz wyrzuty, że siedziałam zamknięta w kiblu z twoimi kolegami?! -,-'"
   },
   {
     text: "Sesję na cmentarzu",
-    stats: [0.1, 0.05, 0, 0.2, 0.1, 0, 0, 0]
+    stats: [0.1, 0.05, 0, 0.2, 0.1, 0, 0, 0],
+    summary: "Idzie na insta, twoja babcia anon nabije mi followersów <3"
   },
   {
     text: "Jaranie weed",
-    stats: [0, 0, -0.1, -0.1, 0.05, 0, 0, 0]
+    stats: [0, 0, -0.1, -0.1, 0.05, 0, 0, 0],
+    summary: "Następnym razem trzeba z czymś zmieszać..."
   }
 ];
 
@@ -26,7 +30,7 @@ export default function TakeButton(props) {
 
   const renderTakeElement = () => (
     <View>
-      {takeDictionary.map(({ text, stats }) => (
+      {takeDictionary.map(({ text, stats, summary }) => (
         <Button
           key={text}
           style={styles.modalButton}
@@ -34,6 +38,12 @@ export default function TakeButton(props) {
           onPress={() => {
             setVisibility(!visible);
             setStats(stats, props.value);
+            Alert.alert(
+              text,
+              summary,
+              [{ text: "OK ;_;", onPress: () => console.log("OK Pressed") }],
+              { cancelable: false }
+            );
           }}
         >
           {text}

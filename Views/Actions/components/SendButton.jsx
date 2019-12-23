@@ -1,19 +1,23 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";
 
 const sendDictionary = [
   {
     text: "Memucha",
-    stats: [0.05, 0, 0, -0.2, 0.05, 0, 0, 0]
+    stats: [0.05, 0, 0, -0.2, 0.05, 0, 0, 0],
+    summary: "beka XDDDD"
   },
   {
     text: "Smutną piosenkę",
-    stats: [0.05, 0, 0, 0.1, 0.1, 0, 0.1, 0.1]
+    stats: [0.05, 0, 0, 0.1, 0.1, 0, 0.1, 0.1],
+    summary:
+      "Super muzyka, ale pamiętaj, że tylko ja w tym związku mogę kurwa słuchać Billie!"
   },
   {
     text: "Weed",
-    stats: [0.5, 0, 0.1, -0.2, 0.1, 0, 0, 0]
+    stats: [0.5, 0, 0.1, -0.2, 0.1, 0, 0, 0],
+    summary: "Kurwa popierdoliło cię, żeby wysyłać to pocztą?!"
   }
 ];
 
@@ -26,7 +30,7 @@ export default function TakeButton(props) {
 
   const renderSendElement = () => (
     <View>
-      {sendDictionary.map(({ text, stats }) => (
+      {sendDictionary.map(({ text, stats, summary }) => (
         <Button
           key={text}
           style={styles.modalButton}
@@ -34,6 +38,12 @@ export default function TakeButton(props) {
           onPress={() => {
             setVisibility(!visible);
             setStats(stats, props.value);
+            Alert.alert(
+              text,
+              summary,
+              [{ text: "OK ;_;", onPress: () => console.log("OK Pressed") }],
+              { cancelable: false }
+            );
           }}
         >
           {text}
