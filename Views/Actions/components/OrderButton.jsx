@@ -6,21 +6,25 @@ const orderDictionary = [
   {
     text: "Usiądź na mordzie",
     stats: [0.1, 0, 0, -0.2, 0.1, 0, 0, 0],
+    staminaPrice: 200,
     summary: "Ostatnio każda tak robi, ale okej...niech ci kurwa będzie..."
   },
   {
     text: "Zrób dziarkę",
     stats: [0.15, 0, 0, 0.1, 0.1, 0.3, 0.1, 0.1],
+    staminaPrice: 200,
     summary: "Ale jak to kurwa tężec!?"
   },
   {
     text: "Pokaż st00pky",
     stats: [0, 0, 0, -0.1, 0.05, 0, 0, 0],
+    staminaPrice: 200,
     summary: "Tylko ostrożnie, bo dawno niemyte -,-'"
   },
   {
     text: "Zrób filtry na insta",
     stats: [0.05, 0, 0.15, 0.05, 0, 0, 0, 0],
+    staminaPrice: 200,
     summary:
       "Okej kurwa, ale przynajmniej mi zielsko załatw jak już mam być kreatywna..."
   }
@@ -33,9 +37,13 @@ export default function TakeButton(props) {
     props.value.setStats(stats);
   };
 
+  const spendStamina = stamina => {
+    props.stamina.spendStamina(stamina);
+  };
+
   const renderOrderElement = value => (
     <View>
-      {orderDictionary.map(({ text, stats, summary }) => (
+      {orderDictionary.map(({ text, stats, staminaPrice, summary }) => (
         <Button
           key={text}
           style={styles.modalButton}
@@ -43,6 +51,7 @@ export default function TakeButton(props) {
           onPress={() => {
             setVisibility(!visible);
             setStats(stats, value);
+            spendStamina(staminaPrice);
             Alert.alert(
               text,
               summary,

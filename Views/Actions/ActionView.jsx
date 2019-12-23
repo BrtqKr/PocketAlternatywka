@@ -8,31 +8,36 @@ import BuyButton from "./components/BuyButton";
 import OrderButton from "./components/OrderButton";
 import SendButton from "./components/SendButton";
 import OffendButton from "./components/OffendButton";
+import { StaminaConsumer } from "../../Providers/StaminaProviderConfig";
 
 function ActionsView() {
   return (
-    <ItemsConsumer>
-      {itemValue => (
-        <StatsConsumer>
-          {value => (
-            <View style={styles.container}>
-              <TakeButton value={value} />
-              <BuyButton itemValue={itemValue} />
-              <OrderButton value={value} />
-              <SendButton value={value} />
-              <OffendButton value={value} />
+    <StaminaConsumer>
+      {staminaValue => (
+        <ItemsConsumer>
+          {itemValue => (
+            <StatsConsumer>
+              {value => (
+                <View style={styles.container}>
+                  <TakeButton value={value} stamina={staminaValue} />
+                  <BuyButton itemValue={itemValue} />
+                  <OrderButton value={value} stamina={staminaValue} />
+                  <SendButton value={value} stamina={staminaValue} />
+                  <OffendButton value={value} stamina={staminaValue} />
 
-              <Button
-                style={styles.button}
-                onPress={async () => AsyncStorage.clear()}
-              >
-                Clear storage
-              </Button>
-            </View>
+                  <Button
+                    style={styles.button}
+                    onPress={async () => AsyncStorage.clear()}
+                  >
+                    Clear storage
+                  </Button>
+                </View>
+              )}
+            </StatsConsumer>
           )}
-        </StatsConsumer>
+        </ItemsConsumer>
       )}
-    </ItemsConsumer>
+    </StaminaConsumer>
   );
 }
 

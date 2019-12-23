@@ -6,27 +6,32 @@ const offendDictionary = [
   {
     text: "Podważ alternatywność",
     stats: [-0.5, 0, 0.5, 0.2, 0.3, 0, 0.2, 0.2],
+    staminaPrice: 200,
     summary: "Ale jak to alternatywki są już zbyt powszechne?! ;_;"
   },
   {
     text: "Nazwij atencjuszką",
     stats: [0.5, 0, 0.5, 0.2, 0.2, 0, 0.3, 0.3],
+    staminaPrice: 200,
     summary:
       "*wyciąga żyletkę i wstawia na facebooka post o próbie samobójczej*"
   },
   {
     text: "Unfollow na insta",
     stats: [0, 0, 0.2, 0.2, 0.2, 0, 0.1, 0.1],
+    staminaPrice: 200,
     summary: "Ale jak to ten śmieć mnie kurwa nie followuje?!"
   },
   {
     text: "Skrytykuj tatuaż",
     stats: [0.05, 0, 0.1, 0.1, 0.2, 0, 0.3, 0.1],
+    staminaPrice: 200,
     summary: "Zajebisty jest, nie zesraj się kurwa! -,-'"
   },
   {
     text: "Obraź Billie",
     stats: [0.15, 0, 0.2, 0.3, 0.2, 0, 0.1, 0.3],
+    staminaPrice: 200,
     summary: "Odpierdol się od Billie! -,-,-,-,-'"
   }
 ];
@@ -38,9 +43,13 @@ export default function OffendButton(props) {
     props.value.setStats(stats);
   };
 
+  const spendStamina = stamina => {
+    props.stamina.spendStamina(stamina);
+  };
+
   const renderOffendElement = () => (
     <View>
-      {offendDictionary.map(({ text, stats, summary }) => (
+      {offendDictionary.map(({ text, stats, staminaPrice, summary }) => (
         <Button
           key={text}
           style={styles.modalButton}
@@ -48,6 +57,7 @@ export default function OffendButton(props) {
           onPress={() => {
             setVisibility(!visible);
             setStats(stats, props.value);
+            spendStamina(staminaPrice);
             Alert.alert(
               text,
               summary,
