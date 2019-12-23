@@ -6,7 +6,7 @@ import axios from "react-native-axios";
 const { Provider, Consumer } = createContext();
 
 const defaultStats = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
-const reductionStats = [-0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2];
+const reductionStats = [-0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1];
 
 function checkBorders(a, b) {
   if (a + b >= 1) return 1;
@@ -33,7 +33,9 @@ class StatsProvider extends Component {
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
           console.warn("reducing");
-          this.setStats(reductionStats);
+          this.setStats(
+            reductionStats.map(a => (a * (date - storedDate)) / 5000)
+          );
         }
       } else {
         this.setState({ date: resp.data.datetime });
