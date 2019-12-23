@@ -26,7 +26,7 @@ class CoinsProvider extends Component {
       const storedDate = new Date(this.state.date);
 
       if (this.state.date) {
-        if ((date - storedDate) / 1000 > 86400) {
+        if ((date - storedDate) / 1000 > 5) {
           AsyncStorage.setItem("date", JSON.stringify(date));
           this.increaseCoins();
         }

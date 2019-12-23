@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import React, { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Button, Modal } from "react-native-ui-kitten";

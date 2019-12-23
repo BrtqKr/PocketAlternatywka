@@ -1,10 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component, createContext } from "react";
 import { AsyncStorage } from "react-native";
+import axios from "react-native-axios";
 
 const { Provider, Consumer } = createContext();
 
 const defaultStats = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+const reductionStats = [-0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2];
 
 function checkBorders(a, b) {
   if (a + b >= 1) return 1;
@@ -15,14 +17,38 @@ function checkBorders(a, b) {
 class StatsProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = { stats: null };
-    this.loadFromStorage();
+    this.state = { stats: null, date: null };
+    // this.loadFromStorage();
+  }
+
+  async componentDidMount() {
+    await this.loadFromStorage();
+    try {
+      this.setState({ loading: true });
+      const resp = await axios.get("http://worldtimeapi.org/api/ip");
+
+      const date = new Date(resp.data.datetime);
+      const storedDate = new Date(this.state.date);
+
+      if (this.state.date) {
+        if ((date - storedDate) / 1000 > 5) {
+          console.warn("reducing");
+          this.setStats(reductionStats);
+        }
+      } else {
+        this.setState({ date: resp.data.datetime });
+      }
+    } catch (err) {
+      this.setState({ error: err, loading: false });
+    }
   }
 
   loadFromStorage = async () => {
     const stats = await this.getStoredStats();
+    const storedDate = await this.getStoredDate();
     this.setState({
-      stats: stats || defaultStats
+      stats: stats || defaultStats,
+      date: storedDate
     });
   };
 
@@ -34,6 +60,20 @@ class StatsProvider extends Component {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
+    }
+    return null;
+  };
+
+  getStoredDate = async () => {
+    try {
+      const retreivedDate = await AsyncStorage.getItem("date");
+
+      const date = JSON.parse(retreivedDate);
+
+      return date;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
     return null;
   };
