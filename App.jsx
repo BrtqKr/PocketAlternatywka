@@ -21,6 +21,7 @@ import {
   initNotification
 } from "./Notifications/NotificationsScheduler";
 import { getStoredStats } from "./Providers/StatsProviderUtil";
+import { StaminaProvider } from "./Providers/StaminaProviderConfig";
 
 export const MainIcon = <Icon name="person" />;
 Platform.select({ ios: "Arial", android: "Comic Sans" });
@@ -66,14 +67,16 @@ class LayoutSimpleUsageShowcase extends React.Component {
       <LinearGradient colors={["pink", "#e07cf2"]} style={{ flex: 1 }}>
         <ItemsProvider>
           <StatsProvider>
-            <CoinsProvider>
-              <ConfigProvider>
-                <ApplicationProvider mapping={mapping} theme={lightTheme}>
-                  <IconRegistry icons={EvaIconsPack} />
-                  <NavbarBottom />
-                </ApplicationProvider>
-              </ConfigProvider>
-            </CoinsProvider>
+            <StaminaProvider>
+              <CoinsProvider>
+                <ConfigProvider>
+                  <ApplicationProvider mapping={mapping} theme={lightTheme}>
+                    <IconRegistry icons={EvaIconsPack} />
+                    <NavbarBottom />
+                  </ApplicationProvider>
+                </ConfigProvider>
+              </CoinsProvider>
+            </StaminaProvider>
           </StatsProvider>
         </ItemsProvider>
       </LinearGradient>

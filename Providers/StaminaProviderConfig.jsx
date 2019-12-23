@@ -5,11 +5,11 @@ import axios from "react-native-axios";
 
 const { Provider, Consumer } = createContext();
 
-class CoinsProvider extends Component {
+class StaminaProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      coins: null,
+      stamina: null,
       date: null
     };
   }
@@ -25,7 +25,7 @@ class CoinsProvider extends Component {
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
           AsyncStorage.setItem("date", JSON.stringify(date));
-          this.increaseCoins();
+          this.increaseStamina();
         }
       } else {
         this.setState({ date: resp.data.datetime });
@@ -34,27 +34,28 @@ class CoinsProvider extends Component {
     } catch (err) {
       console.log(err);
     }
+    console.warn(this.state.stamina);
   }
 
   loadFromStorage = async () => {
-    const storedCoins = await this.getStoredCoins();
+    const storedStamina = await this.getStoredStamina();
     const storedDate = await this.getStoredDate();
-    if (!storedCoins) {
-      AsyncStorage.setItem("coins", JSON.stringify(1000));
+    if (!storedStamina) {
+      AsyncStorage.setItem("stamina", JSON.stringify(100));
     }
     this.setState({
-      coins: storedCoins || 1000,
+      stamina: storedStamina || 100,
       date: storedDate
     });
   };
 
-  getStoredCoins = async () => {
+  getStoredStamina = async () => {
     try {
-      const retreivedCoins = await AsyncStorage.getItem("coins");
+      const retreivedStamina = await AsyncStorage.getItem("stamina");
 
-      const coins = JSON.parse(retreivedCoins);
+      const stamina = JSON.parse(retreivedStamina);
 
-      return coins;
+      return stamina;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -76,21 +77,21 @@ class CoinsProvider extends Component {
     return null;
   };
 
-  increaseCoins = () => {
+  increaseStamina = () => {
     this.setState(
-      prevState => ({ coins: prevState.coins + 100 }),
+      prevState => ({ stamina: prevState.stamina + 100 }),
       () => {
-        AsyncStorage.setItem("coins", JSON.stringify(this.state.coins));
+        AsyncStorage.setItem("stamina", JSON.stringify(this.state.stamina));
       }
     );
   };
 
-  spendCoins = amount => {
-    const decreased = this.state.coins - amount;
-    if (decreased < 0) console.warn("Not enough money");
+  spendStamina = value => {
+    const decreased = this.state.stamina - value;
+    if (decreased < 0) console.warn("Not enough stamina");
     else {
-      this.setState({ coins: decreased });
-      AsyncStorage.setItem("coins", JSON.stringify(decreased));
+      this.setState({ stamina: decreased });
+      AsyncStorage.setItem("stamina", JSON.stringify(decreased));
     }
   };
 
@@ -99,9 +100,9 @@ class CoinsProvider extends Component {
       <>
         <Provider
           value={{
-            coins: this.state.coins,
+            stamina: this.state.stamina,
             date: this.state.date,
-            spendCoins: amount => this.spendCoins(amount)
+            spendStamina: value => this.spendStamina(value)
           }}
         >
           {this.props.children}
@@ -110,4 +111,4 @@ class CoinsProvider extends Component {
     );
   }
 }
-export { CoinsProvider, Consumer as CoinsConsumer };
+export { StaminaProvider, Consumer as StaminaConsumer };

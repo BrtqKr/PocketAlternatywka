@@ -33,12 +33,14 @@ class StatsProvider extends Component {
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
           console.warn("reducing");
+          AsyncStorage.setItem("statsDate", JSON.stringify(date));
           this.setStats(
             reductionStats.map(a => (a * (date - storedDate)) / 5000)
           );
         }
       } else {
         this.setState({ date: resp.data.datetime });
+        AsyncStorage.setItem("statsDate", JSON.stringify(date));
       }
     } catch (err) {
       this.setState({ error: err, loading: false });
@@ -68,7 +70,7 @@ class StatsProvider extends Component {
 
   getStoredDate = async () => {
     try {
-      const retreivedDate = await AsyncStorage.getItem("date");
+      const retreivedDate = await AsyncStorage.getItem("statsDate");
 
       const date = JSON.parse(retreivedDate);
 

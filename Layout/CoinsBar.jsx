@@ -1,6 +1,7 @@
 import React from "react";
-import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { CoinsConsumer } from "../Providers/CoinsProviderConfig";
+import { StaminaConsumer } from "../Providers/StaminaProviderConfig";
 
 class CoinsBar extends React.Component {
   constructor(props) {
@@ -11,19 +12,26 @@ class CoinsBar extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <CoinsConsumer>
-          {coinsProperties => {
+        <StaminaConsumer>
+          {staminaProperties => {
             return (
-              <View style={styles.container}>
-                {this.state.loading ? (
-                  <ActivityIndicator size="small" color="green" />
-                ) : (
-                  <Text>{coinsProperties.coins}</Text>
-                )}
-              </View>
+              <CoinsConsumer>
+                {coinsProperties => {
+                  return (
+                    <View style={styles.container}>
+                      <Text style={styles.staminaContainer}>
+                        {staminaProperties.stamina}
+                      </Text>
+                      <Text style={styles.coinsContainer}>
+                        {coinsProperties.coins}
+                      </Text>
+                    </View>
+                  );
+                }}
+              </CoinsConsumer>
             );
           }}
-        </CoinsConsumer>
+        </StaminaConsumer>
       </View>
     );
   }
@@ -33,9 +41,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "flex-end",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     flexWrap: "wrap",
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     margin: 30
   },
   picture: {
