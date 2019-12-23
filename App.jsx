@@ -18,8 +18,9 @@ import { CoinsProvider } from "./Providers/CoinsProviderConfig";
 import {
   listenForNotifications,
   getiOSNotificationPermission,
-  handleButtonPress
+  initNotification
 } from "./Notifications/NotificationsScheduler";
+import { getStoredStats } from "./Providers/StatsProviderUtil";
 
 export const MainIcon = <Icon name="person" />;
 Platform.select({ ios: "Arial", android: "Comic Sans" });
@@ -47,7 +48,7 @@ class LayoutSimpleUsageShowcase extends React.Component {
       this.state.appState === "active" &&
       nextAppState.match(/inactive|background/)
     ) {
-      const notificationId = handleButtonPress();
+      const notificationId = initNotification();
       this.setState({ idPromise: notificationId });
     } else if (
       this.state.appState.match(/inactive|background/) &&
