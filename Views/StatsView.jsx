@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-ui-kitten";
+import { StyleSheet, View, Text } from "react-native";
 import Constants from "expo-constants";
 
 import { StatsConsumer } from "../Providers/StatsProviderConfig";

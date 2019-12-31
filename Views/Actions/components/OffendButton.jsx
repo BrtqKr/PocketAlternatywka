@@ -58,12 +58,9 @@ export default function OffendButton(props) {
             setVisibility(!visible);
             setStats(stats, props.value);
             spendStamina(staminaPrice);
-            Alert.alert(
-              text,
-              summary,
-              [{ text: "OK ;_;", onPress: () => console.log("OK Pressed") }],
-              { cancelable: false }
-            );
+            Alert.alert(text, summary, [{ text: "OK ;_;" }], {
+              cancelable: false
+            });
           }}
         >
           {text}

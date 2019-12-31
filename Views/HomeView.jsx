@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import * as imageDictionary from "./ProfileAddresses";
-import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
+import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
 import CoinsBar from "../Layout/CoinsBar";
 
 class HomeView extends React.Component {
@@ -12,7 +12,7 @@ class HomeView extends React.Component {
 
   render() {
     return (
-      <ConfigConsumer>
+      <ProfileConsumer>
         {value => {
           return (
             <View style={styles.container}>
@@ -28,7 +28,7 @@ class HomeView extends React.Component {
             </View>
           );
         }}
-      </ConfigConsumer>
+      </ProfileConsumer>
     );
   }
 }

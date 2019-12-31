@@ -1,17 +1,11 @@
 import React from "react";
 import { Platform, AppState } from "react-native";
 import { mapping, light as lightTheme } from "@eva-design/eva";
-import {
-  ApplicationProvider,
-  Icon,
-  IconRegistry
-} from "react-native-ui-kitten";
-import { EvaIconsPack } from "@ui-kitten/eva-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import { ApplicationProvider } from "react-native-ui-kitten";
 import { Notifications } from "expo";
 
 import NavbarBottom from "./Layout/NavbarBottom";
-import { ConfigProvider } from "./Providers/ProfileProviderConfig";
+import { ProfileProvider } from "./Providers/ProfileProviderConfig";
 import { StatsProvider } from "./Providers/StatsProviderConfig";
 import { ItemsProvider } from "./Providers/ItemsProviderConfig";
 import { CoinsProvider } from "./Providers/CoinsProviderConfig";
@@ -20,10 +14,9 @@ import {
   getiOSNotificationPermission,
   initNotification
 } from "./Notifications/NotificationsScheduler";
-import { getStoredStats } from "./Providers/StatsProviderUtil";
 import { StaminaProvider } from "./Providers/StaminaProviderConfig";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export const MainIcon = <Icon name="person" />;
 Platform.select({ ios: "Arial", android: "Comic Sans" });
 
 class LayoutSimpleUsageShowcase extends React.Component {
@@ -64,22 +57,19 @@ class LayoutSimpleUsageShowcase extends React.Component {
 
   render() {
     return (
-      <LinearGradient colors={["pink", "#e07cf2"]} style={{ flex: 1 }}>
-        <ItemsProvider>
-          <StatsProvider>
-            <StaminaProvider>
-              <CoinsProvider>
-                <ConfigProvider>
-                  <ApplicationProvider mapping={mapping} theme={lightTheme}>
-                    <IconRegistry icons={EvaIconsPack} />
-                    <NavbarBottom />
-                  </ApplicationProvider>
-                </ConfigProvider>
-              </CoinsProvider>
-            </StaminaProvider>
-          </StatsProvider>
-        </ItemsProvider>
-      </LinearGradient>
+      <ItemsProvider>
+        <StatsProvider>
+          <StaminaProvider>
+            <CoinsProvider>
+              <ProfileProvider>
+                <ApplicationProvider mapping={mapping} theme={lightTheme}>
+                  <NavbarBottom />
+                </ApplicationProvider>
+              </ProfileProvider>
+            </CoinsProvider>
+          </StaminaProvider>
+        </StatsProvider>
+      </ItemsProvider>
     );
   }
 }

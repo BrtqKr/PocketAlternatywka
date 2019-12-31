@@ -24,7 +24,6 @@ class StatsProvider extends Component {
   async componentDidMount() {
     await this.loadFromStorage();
     try {
-      this.setState({ loading: true });
       const resp = await axios.get("http://worldtimeapi.org/api/ip");
 
       const date = new Date(resp.data.datetime);
@@ -43,7 +42,7 @@ class StatsProvider extends Component {
         AsyncStorage.setItem("statsDate", JSON.stringify(date));
       }
     } catch (err) {
-      this.setState({ error: err, loading: false });
+      this.setState({ error: err });
     }
   }
 
@@ -118,5 +117,4 @@ class StatsProvider extends Component {
     );
   }
 }
-
 export { StatsProvider, Consumer as StatsConsumer };

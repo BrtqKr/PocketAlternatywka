@@ -35,6 +35,18 @@ export default function TakeButton(props) {
     props.stamina.spendStamina(stamina);
   };
 
+  const generateAlert = (isValid, text, summary) => {
+    if (isValid) {
+      Alert.alert(text, summary, [{ text: "OK ;_;" }], { cancelable: false });
+    } else {
+      Alert.alert(
+        "Jesteś zbyt zmęczony",
+        "Odpocznij przed wykonaniem kolejnej akcji",
+        [{ text: "OK ;_;" }],
+        { cancelable: false }
+      );
+    }
+  };
   const renderTakeElement = () => (
     <View>
       {takeDictionary.map(({ text, stats, staminaPrice, summary }) => (
@@ -46,11 +58,11 @@ export default function TakeButton(props) {
             setVisibility(!visible);
             setStats(stats, props.value);
             spendStamina(staminaPrice);
-            Alert.alert(
+
+            generateAlert(
+              props.stamina.stamina - staminaPrice >= 0,
               text,
-              summary,
-              [{ text: "OK ;_;", onPress: () => console.log("OK Pressed") }],
-              { cancelable: false }
+              summary
             );
           }}
         >

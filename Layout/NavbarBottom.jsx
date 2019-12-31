@@ -1,15 +1,6 @@
 import React from "react";
-// import { StyleSheet } from "react-native";
-// import { mapping, light as lightTheme } from "@eva-design/eva";
-import {
-  // BottomNavigation,
-  // BottomNavigationTab,
-  // Layout,
-  // Text,
-  // ApplicationProvider,
-  Icon
-} from "react-native-ui-kitten";
-// import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import OutfitView from "../Views/OutfitView";
@@ -18,36 +9,59 @@ import StatsView from "../Views/StatsView";
 import InventoryView from "../Views/InventoryView";
 import ActionsView from "../Views/Actions/ActionView";
 
-import RequestView from "../Views/apiRequests/RequestView";
-
-export const MainIcon = <Icon name="person" />;
-
-// export default LayoutSimpleUsageShowcase = ({ navigation }) => (
-//   <SafeAreaView>
-//     <BottomNavigation
-//     // selectedIndex={navigation.state.index}
-//     // onSelect={onSelect}
-//     >
-//       <BottomNavigationTab title="Outfit" />
-//       <BottomNavigationTab title="Stats" />
-//       <BottomNavigationTab icon={MainIcon} />
-//       <BottomNavigationTab title="Actions" />
-//       <BottomNavigationTab title="Inventory" />
-//     </BottomNavigation>
-//   </SafeAreaView>
-// );
-
 const TabNavigator = createBottomTabNavigator(
   {
-    Outfit: OutfitView,
-    Stats: StatsView,
-    Home: HomeView,
-    Actions: ActionsView,
-    Inventory: InventoryView
-    // Requests: RequestView
+    Outfit: {
+      screen: OutfitView,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="tshirt" color={tintColor} size={24} />
+        )
+      })
+    },
+    Stats: {
+      screen: StatsView,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="chart-bar" color={tintColor} size={24} />
+        )
+      })
+    },
+    Home: {
+      screen: HomeView,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="heart" color={tintColor} size={24} />
+        )
+      })
+    },
+    Actions: {
+      screen: ActionsView,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="bolt" color={tintColor} size={24} />
+        )
+      })
+    },
+    Inventory: {
+      screen: InventoryView,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="th-large" color={tintColor} size={24} />
+        )
+      })
+    }
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    tabBarOptions: {
+      showLabel: false,
+      inactiveTintColor: "#886589",
+      activeTintColor: "#F8F8F8",
+      style: {
+        backgroundColor: "#EC91D8" // TabBar background
+      }
+    }
   }
 );
 

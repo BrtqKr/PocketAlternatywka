@@ -60,14 +60,12 @@ export default function BuyButton(props) {
                         {
                           text: "OK ;_;",
                           onPress: () => {
-                            console.log("OK Pressed");
                             props.itemValue.increase(item.id);
                             coinsProperties.spendCoins(item.price);
                           }
                         },
                         {
                           text: "Anuluj",
-                          onPress: () => console.log("Cancel Pressed"),
                           style: "cancel"
                         }
                       ],

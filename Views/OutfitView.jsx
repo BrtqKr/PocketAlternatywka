@@ -10,7 +10,8 @@ import {
   TouchableOpacity
 } from "react-native";
 import * as imageDictionary from "./ProfileAddresses";
-import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
+import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
+import { StatsConsumer } from "../Providers/StatsProviderConfig";
 
 const profilePics = [
   {
@@ -70,70 +71,44 @@ const profilePics = [
 ];
 
 class OutfitView extends React.Component {
-  setProfile = (id, value) => {
-    value.setProfile(profilePics[id]);
+  setProfile = async (id, value, stats) => {
+    const validChange = await value.setProfile(profilePics[id]);
+    if (validChange) stats.setStats([0.1, 0.1, 0, 0, 0, 0, 0, 0]);
   };
-
-  // onPRess = async () => {
-  //   try {
-  //     const value = await AsyncStorage.setItem(
-  //       "profilePic",
-  //       JSON.stringify(this.state.profilePics[id])
-  //     );
-  //     if (value != null) {
-  //       console.log(id);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // console.log(this.state.profilePics[id]);
-  // };
-
-  // onViewableItemsChanged = ({ viewableItems, changed }) =>
-  //   this.setState({ viewableItems });
-  // setProfilePic = async index => {
-  //   try {
-  //     const value = await AsyncStorage.setItem(
-  //       "profilePic",
-  //       JSON.stringify(this.state.profilePics[index])
-  //     );
-  //     if (value != null) {
-  //       console.log(index);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   render() {
     return (
-      <ConfigConsumer>
-        {value => (
-          <View style={styles.container}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled
-            >
-              {profilePics.map(({ title, id, description, img }) => (
-                <View key={id} style={styles.scrollContainer}>
-                  <Text style={styles.title}>{title}</Text>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => this.setProfile(id, value)}
-                  >
-                    <Image
-                      source={imageDictionary[img]}
-                      style={styles.picture}
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.bottomText}>{description}</Text>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
+      <StatsConsumer>
+        {stats => (
+          <ProfileConsumer>
+            {value => (
+              <View style={styles.container}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  pagingEnabled
+                >
+                  {profilePics.map(({ title, id, description, img }) => (
+                    <View key={id} style={styles.scrollContainer}>
+                      <Text style={styles.title}>{title}</Text>
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() => this.setProfile(id, value, stats)}
+                      >
+                        <Image
+                          source={imageDictionary[img]}
+                          style={styles.picture}
+                        />
+                      </TouchableOpacity>
+                      <Text style={styles.bottomText}>{description}</Text>
+                    </View>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
+          </ProfileConsumer>
         )}
-      </ConfigConsumer>
+      </StatsConsumer>
     );
   }
 }

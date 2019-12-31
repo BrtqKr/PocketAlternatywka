@@ -34,7 +34,6 @@ class StaminaProvider extends Component {
     } catch (err) {
       console.log(err);
     }
-    console.warn(this.state.stamina);
   }
 
   loadFromStorage = async () => {
@@ -79,7 +78,10 @@ class StaminaProvider extends Component {
 
   increaseStamina = () => {
     this.setState(
-      prevState => ({ stamina: prevState.stamina + 100 }),
+      prevState => ({
+        stamina:
+          prevState.stamina > 900 ? prevState.stamina : prevState.stamina + 100
+      }),
       () => {
         AsyncStorage.setItem("stamina", JSON.stringify(this.state.stamina));
       }
@@ -88,8 +90,7 @@ class StaminaProvider extends Component {
 
   spendStamina = value => {
     const decreased = this.state.stamina - value;
-    if (decreased < 0) console.warn("Not enough stamina");
-    else {
+    if (decreased >= 0) {
       this.setState({ stamina: decreased });
       AsyncStorage.setItem("stamina", JSON.stringify(decreased));
     }
