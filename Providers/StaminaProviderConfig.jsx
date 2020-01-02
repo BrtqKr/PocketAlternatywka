@@ -15,12 +15,12 @@ class StaminaProvider extends Component {
   }
 
   async componentDidMount() {
-    await this.loadFromStorage();
+    const storedResult = await this.loadFromStorage();
     try {
       const resp = await axios.get("http://worldtimeapi.org/api/ip");
 
       const date = new Date(resp.data.datetime);
-      const storedDate = new Date(this.state.date);
+      const storedDate = new Date(storedResult);
 
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
@@ -46,6 +46,7 @@ class StaminaProvider extends Component {
       stamina: storedStamina || 100,
       date: storedDate
     });
+    return storedDate;
   };
 
   getStoredStamina = async () => {

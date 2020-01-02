@@ -11,12 +11,10 @@ const defaultProfile = {
   id: 0
 };
 
-const profileReduction = [-0.5, -0.5, 0, 0, 0, 0, 0, 0];
-
 class ProfileProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = { profile: null, date: null, valid: false };
+    this.state = { profile: null, date: null };
   }
 
   async componentDidMount() {
@@ -26,8 +24,7 @@ class ProfileProvider extends Component {
       const storedResult = await this.loadFromStorage();
       const storedDate = new Date(storedResult);
 
-      console.warn(date, storedDate);
-
+      this.setState({});
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
           AsyncStorage.setItem("profileDate", JSON.stringify(date));
@@ -113,10 +110,7 @@ class ProfileProvider extends Component {
       AsyncStorage.setItem(
         "profile",
         JSON.stringify({
-          title: profile.title,
-          img: profile.img,
-          description: profile.description,
-          id: profile.id
+          ...profile
         })
       );
     return valid;

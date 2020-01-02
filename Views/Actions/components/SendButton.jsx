@@ -35,7 +35,7 @@ export default function SendButton(props) {
   const [visible, setVisibility] = useState(false);
 
   const setStats = stats => {
-    props.value.setStats(stats);
+    props.statsValue.setStats(stats);
   };
 
   const spendStamina = stamina => {
@@ -58,29 +58,11 @@ export default function SendButton(props) {
   const renderSendElement = () => (
     <View style={styles.modalContainer}>
       {sendDictionary.map(({ text, stats, staminaPrice, summary }) => (
-        // <Button
-        //   key={text}
-        //   style={styles.modalButton}
-        //   status="basic"
-        //   onPress={() => {
-        //     setVisibility(false);
-        //     setStats(stats, props.value);
-        //     spendStamina(staminaPrice);
-        //     setTimeout(() => {
-        //       generateAlert(
-        //         props.stamina.stamina - staminaPrice >= 0,
-        //         text,
-        //         summary
-        //       );
-        //     }, 1000);
-        //   }}
-        //   title={text}
-        // />
         <TouchableOpacity
           key={text}
           style={styles.modalButton}
           onPress={() => {
-            setStats(stats, props.value);
+            setStats(stats, props.statsValue);
             spendStamina(staminaPrice);
             setVisibility(false);
             setTimeout(() => {

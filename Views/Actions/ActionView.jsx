@@ -22,13 +22,16 @@ function ActionsView() {
         <ItemsConsumer>
           {itemValue => (
             <StatsConsumer>
-              {value => (
+              {statsValue => (
                 <View style={styles.container}>
-                  <TakeButton value={value} stamina={staminaValue} />
+                  <TakeButton statsValue={statsValue} stamina={staminaValue} />
                   <BuyButton itemValue={itemValue} />
-                  <OrderButton value={value} stamina={staminaValue} />
-                  <SendButton value={value} stamina={staminaValue} />
-                  <OffendButton value={value} stamina={staminaValue} />
+                  <OrderButton statsValue={statsValue} stamina={staminaValue} />
+                  <SendButton statsValue={statsValue} stamina={staminaValue} />
+                  <OffendButton
+                    statsValue={statsValue}
+                    stamina={staminaValue}
+                  />
 
                   <Button
                     style={styles.button}

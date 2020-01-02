@@ -47,9 +47,9 @@ export default function BuyButton(props) {
         {coinsProperties => {
           return (
             <View style={styles.container}>
-              {buyDictionary.map(item => (
+              {buyDictionary.map(({ text, id, price }) => (
                 <TouchableOpacity
-                  key={item.text}
+                  key={text}
                   style={styles.modalButton}
                   onPress={() => {
                     setVisibility(false);
@@ -58,17 +58,17 @@ export default function BuyButton(props) {
                       Alert.alert(
                         "Sklep",
                         "Czy na pewno chcesz kupić ".concat(
-                          item.text,
+                          text,
                           " za ",
-                          item.price,
+                          price,
                           " DogeCoins?"
                         ),
                         [
                           {
                             text: "OK ;_;",
                             onPress: () => {
-                              props.itemValue.increase(item.id);
-                              coinsProperties.spendCoins(item.price);
+                              props.itemValue.increase(id);
+                              coinsProperties.spendCoins(price);
                             }
                           },
                           {
@@ -81,7 +81,7 @@ export default function BuyButton(props) {
                     }, 1000);
                   }}
                 >
-                  <Text style={styles.buttonText}>{item.text}</Text>
+                  <Text style={styles.buttonText}>{text}</Text>
                 </TouchableOpacity>
               ))}
             </View>

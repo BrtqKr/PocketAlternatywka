@@ -1,3 +1,4 @@
+/* eslint-disable react/no-access-state-in-setstate */
 // /* eslint-disable react/destructuring-assignment */
 import React, { Component, createContext } from "react";
 import { AsyncStorage } from "react-native";

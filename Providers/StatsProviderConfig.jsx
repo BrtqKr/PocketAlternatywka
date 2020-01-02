@@ -18,16 +18,15 @@ class StatsProvider extends Component {
   constructor(props) {
     super(props);
     this.state = { stats: null, date: null };
-    // this.loadFromStorage();
   }
 
   async componentDidMount() {
-    await this.loadFromStorage();
+    const storedResult = await this.loadFromStorage();
     try {
       const resp = await axios.get("http://worldtimeapi.org/api/ip");
 
       const date = new Date(resp.data.datetime);
-      const storedDate = new Date(this.state.date);
+      const storedDate = new Date(storedResult);
 
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
@@ -53,6 +52,7 @@ class StatsProvider extends Component {
       stats: stats || defaultStats,
       date: storedDate
     });
+    return storedDate;
   };
 
   getStoredStats = async () => {

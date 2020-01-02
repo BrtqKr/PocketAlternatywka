@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { CoinsConsumer } from "../Providers/CoinsProviderConfig";

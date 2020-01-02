@@ -15,12 +15,12 @@ class CoinsProvider extends Component {
   }
 
   async componentDidMount() {
-    await this.loadFromStorage();
+    const dateResult = this.loadFromStorage();
     try {
       const resp = await axios.get("http://worldtimeapi.org/api/ip");
 
       const date = new Date(resp.data.datetime);
-      const storedDate = new Date(this.state.date);
+      const storedDate = new Date(dateResult);
 
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
@@ -46,6 +46,7 @@ class CoinsProvider extends Component {
       coins: storedCoins || 1000,
       date: storedDate
     });
+    return storedDate;
   };
 
   getStoredCoins = async () => {

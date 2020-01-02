@@ -41,7 +41,7 @@ export default function OrderButton(props) {
   const [visible, setVisibility] = useState(false);
 
   const setStats = stats => {
-    props.value.setStats(stats);
+    props.statsValue.setStats(stats);
   };
 
   const spendStamina = stamina => {
@@ -68,7 +68,7 @@ export default function OrderButton(props) {
           key={text}
           style={styles.modalButton}
           onPress={() => {
-            setStats(stats, props.value);
+            setStats(stats, props.statsValue);
             spendStamina(staminaPrice);
             setVisibility(false);
             setTimeout(() => {
