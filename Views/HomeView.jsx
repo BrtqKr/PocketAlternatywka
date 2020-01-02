@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import * as imageDictionary from "./ProfileAddresses";
 import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
-import CoinsBar from "../Layout/CoinsBar";
 
 class HomeView extends React.Component {
   constructor(props) {
@@ -16,7 +15,7 @@ class HomeView extends React.Component {
         {value => {
           return (
             <View style={styles.container}>
-              <CoinsBar />
+              {/* <CoinsBar /> */}
               <Text style={styles.title}>{value.title}</Text>
 
               <Image
@@ -35,11 +34,11 @@ class HomeView extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
-    marginBottom: 300
+    marginBottom: 300,
+    width: "100%"
   },
   picture: {
     width: 300,

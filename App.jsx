@@ -1,7 +1,6 @@
 import React from "react";
-import { Platform, AppState } from "react-native";
-import { mapping, light as lightTheme } from "@eva-design/eva";
-import { ApplicationProvider } from "react-native-ui-kitten";
+import { Platform, AppState, View } from "react-native";
+
 import { Notifications } from "expo";
 
 import NavbarBottom from "./Layout/NavbarBottom";
@@ -15,7 +14,7 @@ import {
   initNotification
 } from "./Notifications/NotificationsScheduler";
 import { StaminaProvider } from "./Providers/StaminaProviderConfig";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import CoinsBar from "./Layout/CoinsBar";
 
 Platform.select({ ios: "Arial", android: "Comic Sans" });
 
@@ -57,19 +56,20 @@ class LayoutSimpleUsageShowcase extends React.Component {
 
   render() {
     return (
-      <ItemsProvider>
-        <StatsProvider>
-          <StaminaProvider>
-            <CoinsProvider>
-              <ProfileProvider>
-                <ApplicationProvider mapping={mapping} theme={lightTheme}>
+      <View style={{ backgroundColor: "#FFD5F4", flex: 1 }}>
+        <ItemsProvider>
+          <StatsProvider>
+            <StaminaProvider>
+              <CoinsProvider>
+                <ProfileProvider>
+                  <CoinsBar />
                   <NavbarBottom />
-                </ApplicationProvider>
-              </ProfileProvider>
-            </CoinsProvider>
-          </StaminaProvider>
-        </StatsProvider>
-      </ItemsProvider>
+                </ProfileProvider>
+              </CoinsProvider>
+            </StaminaProvider>
+          </StatsProvider>
+        </ItemsProvider>
+      </View>
     );
   }
 }

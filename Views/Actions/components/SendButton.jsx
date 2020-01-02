@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Alert } from "react-native";
-import { Button, Modal } from "react-native-ui-kitten";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  TouchableOpacity,
+  Text,
+  Modal,
+  TouchableWithoutFeedback
+} from "react-native";
 
 const sendDictionary = [
   {
@@ -24,7 +31,7 @@ const sendDictionary = [
   }
 ];
 
-export default function TakeButton(props) {
+export default function SendButton(props) {
   const [visible, setVisibility] = useState(false);
 
   const setStats = stats => {
@@ -35,72 +42,131 @@ export default function TakeButton(props) {
     props.stamina.spendStamina(stamina);
   };
 
+  const generateAlert = (isValid, text, summary) => {
+    if (isValid) {
+      Alert.alert(text, summary, [{ text: "OK ;_;" }], { cancelable: false });
+    } else {
+      Alert.alert(
+        "Jesteś zbyt zmęczony",
+        "Odpocznij przed wykonaniem kolejnej akcji",
+        [{ text: "OK ;_;" }],
+        { cancelable: false }
+      );
+    }
+  };
+
   const renderSendElement = () => (
-    <View>
+    <View style={styles.modalContainer}>
       {sendDictionary.map(({ text, stats, staminaPrice, summary }) => (
-        <Button
+        // <Button
+        //   key={text}
+        //   style={styles.modalButton}
+        //   status="basic"
+        //   onPress={() => {
+        //     setVisibility(false);
+        //     setStats(stats, props.value);
+        //     spendStamina(staminaPrice);
+        //     setTimeout(() => {
+        //       generateAlert(
+        //         props.stamina.stamina - staminaPrice >= 0,
+        //         text,
+        //         summary
+        //       );
+        //     }, 1000);
+        //   }}
+        //   title={text}
+        // />
+        <TouchableOpacity
           key={text}
           style={styles.modalButton}
-          status="basic"
           onPress={() => {
-            setVisibility(!visible);
             setStats(stats, props.value);
             spendStamina(staminaPrice);
-            Alert.alert(text, summary, [{ text: "OK ;_;" }], {
-              cancelable: false
-            });
+            setVisibility(false);
+            setTimeout(() => {
+              generateAlert(
+                props.stamina.stamina - staminaPrice >= 0,
+                text,
+                summary
+              );
+            }, 1000);
           }}
         >
-          {text}
-        </Button>
+          <Text style={styles.buttonText}>{text}</Text>
+        </TouchableOpacity>
       ))}
     </View>
   );
 
   return (
-    <View>
-      <Button
-        style={styles.button}
-        status="basic"
-        onPress={() => setVisibility(!visible)}
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.mainButton}
+        onPress={() => setVisibility(true)}
       >
-        Wyślij...
-      </Button>
+        <Text style={styles.buttonText}>Wyślij...</Text>
+      </TouchableOpacity>
 
       <Modal
-        allowBackdrop
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisibility(!visible)}
         visible={visible}
-        animationType=""
+        transparent
+        animationType="fade"
+        onRequestClose={() => setVisibility(false)}
       >
+        <TouchableWithoutFeedback onPress={() => setVisibility(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+
         {renderSendElement()}
       </Modal>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    margin: 15,
-    width: 210,
-    backgroundColor: "#dedede",
-    borderRadius: 15,
+  container: {
+    width: "100%",
     justifyContent: "center",
     alignItems: "center"
+  },
+  mainButton: {
+    backgroundColor: "#B39DB3",
+    borderRadius: 15,
+    overflow: "hidden",
+    width: "60%",
+    margin: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 7
+  },
+  buttonText: {
+    color: "#F8F8F8",
+    fontSize: 20
   },
   modalContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 256,
-    padding: 16
+    width: "70%",
+    alignSelf: "center",
+    position: "relative",
+    top: "40%"
   },
   modalButton: {
-    margin: 15,
-    backgroundColor: "#9e9e9e",
-    width: 210,
-    borderRadius: 15
+    backgroundColor: "#B39DB3",
+    borderRadius: 15,
+    overflow: "hidden",
+    width: "86%",
+    margin: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 7
   },
-  backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.7)"
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    flex: 1
   }
 });

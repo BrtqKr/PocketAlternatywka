@@ -66,15 +66,3 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 export default createAppContainer(TabNavigator);
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     flexDirection: "column",
-//     flexWrap: "wrap",
-//     paddingVertical: 4,
-//     paddingHorizontal: 4
-//   }
-// });

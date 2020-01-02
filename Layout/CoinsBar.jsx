@@ -1,5 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import Constants from "expo-constants";
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 import { CoinsConsumer } from "../Providers/CoinsProviderConfig";
 import { StaminaConsumer } from "../Providers/StaminaProviderConfig";
 
@@ -19,10 +22,19 @@ class CoinsBar extends React.Component {
                 {coinsProperties => {
                   return (
                     <View style={styles.container}>
-                      <Text style={styles.staminaContainer}>
+                      <Text>
+                        <Icon
+                          name="bolt"
+                          color="black"
+                          style={styles.icon}
+                          size={15}
+                        />
+                        <Text> </Text>
                         {staminaProperties.stamina}
                       </Text>
-                      <Text style={styles.coinsContainer}>
+                      <Text>
+                        <Icon name="coins" color="black" size={15} />
+                        <Text> </Text>
                         {coinsProperties.coins}
                       </Text>
                     </View>
@@ -39,12 +51,17 @@ class CoinsBar extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "flex-end",
     justifyContent: "space-between",
     flexWrap: "wrap",
     flexDirection: "row",
-    margin: 30
+    marginBottom: "5%",
+    backgroundColor: "#FFCCF1",
+    width: "100%",
+    height: "9%",
+    paddingLeft: "13%",
+    paddingRight: "13%",
+    paddingTop: "15%"
   },
   picture: {
     width: 300,
@@ -52,14 +69,16 @@ const styles = StyleSheet.create({
     borderRadius: 90 / 2,
     overflow: "hidden"
   },
-
   title: {
     marginBottom: 10,
     fontSize: 25
   },
   bottomText: {
-    marginTop: 10,
+    margin: 10,
     fontSize: 22
+  },
+  staminaContainer: {
+    justifyContent: "space-between"
   }
 });
 

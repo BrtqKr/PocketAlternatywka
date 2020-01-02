@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Alert } from "react-native";
-import { Button, Modal } from "react-native-ui-kitten";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  TouchableOpacity,
+  Text,
+  Modal,
+  TouchableWithoutFeedback
+} from "react-native";
 import { CoinsConsumer } from "../../../Providers/CoinsProviderConfig";
 
 const buyDictionary = [
@@ -35,46 +42,47 @@ export default function BuyButton(props) {
   const [visible, setVisibility] = useState(false);
 
   const renderBuyElement = () => (
-    <View>
+    <View style={styles.modalContainer}>
       <CoinsConsumer>
         {coinsProperties => {
           return (
-            <View>
+            <View style={styles.container}>
               {buyDictionary.map(item => (
-                <Button
-                  key={item.id}
+                <TouchableOpacity
+                  key={item.text}
                   style={styles.modalButton}
-                  status="basic"
                   onPress={() => {
-                    setVisibility(!visible);
+                    setVisibility(false);
 
-                    Alert.alert(
-                      "Sklep",
-                      "Czy na pewno chcesz kupić ".concat(
-                        item.text,
-                        " za ",
-                        item.price,
-                        " DogeCoins?"
-                      ),
-                      [
-                        {
-                          text: "OK ;_;",
-                          onPress: () => {
-                            props.itemValue.increase(item.id);
-                            coinsProperties.spendCoins(item.price);
+                    setTimeout(() => {
+                      Alert.alert(
+                        "Sklep",
+                        "Czy na pewno chcesz kupić ".concat(
+                          item.text,
+                          " za ",
+                          item.price,
+                          " DogeCoins?"
+                        ),
+                        [
+                          {
+                            text: "OK ;_;",
+                            onPress: () => {
+                              props.itemValue.increase(item.id);
+                              coinsProperties.spendCoins(item.price);
+                            }
+                          },
+                          {
+                            text: "Anuluj",
+                            style: "cancel"
                           }
-                        },
-                        {
-                          text: "Anuluj",
-                          style: "cancel"
-                        }
-                      ],
-                      { cancelable: false }
-                    );
+                        ],
+                        { cancelable: false }
+                      );
+                    }, 1000);
                   }}
                 >
-                  {item.text}
-                </Button>
+                  <Text style={styles.buttonText}>{item.text}</Text>
+                </TouchableOpacity>
               ))}
             </View>
           );
@@ -84,49 +92,73 @@ export default function BuyButton(props) {
   );
 
   return (
-    <View>
-      <Button
-        style={styles.button}
-        status="basic"
-        onPress={() => setVisibility(!visible)}
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.mainButton}
+        onPress={() => setVisibility(true)}
       >
-        Kup...
-      </Button>
+        <Text style={styles.buttonText}>Kup...</Text>
+      </TouchableOpacity>
 
       <Modal
-        allowBackdrop
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisibility(!visible)}
         visible={visible}
-        animationType=""
+        animationType="fade"
+        onRequestClose={() => setVisibility(false)}
+        transparent
       >
+        <TouchableWithoutFeedback onPress={() => setVisibility(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
         {renderBuyElement()}
       </Modal>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    margin: 15,
-    width: 210,
-    backgroundColor: "#dedede",
-    borderRadius: 15,
+  container: {
+    width: "100%",
     justifyContent: "center",
     alignItems: "center"
+  },
+  mainButton: {
+    backgroundColor: "#B39DB3",
+    borderRadius: 15,
+    overflow: "hidden",
+    width: "60%",
+    margin: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 7
+  },
+  buttonText: {
+    color: "#F8F8F8",
+    fontSize: 20
   },
   modalContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 256,
-    padding: 16
+    width: "70%",
+    alignSelf: "center",
+    position: "relative",
+    top: "35%"
   },
   modalButton: {
-    margin: 15,
-    backgroundColor: "#9e9e9e",
-    width: 210,
-    borderRadius: 15
+    backgroundColor: "#B39DB3",
+    borderRadius: 15,
+    overflow: "hidden",
+    width: "86%",
+    margin: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 7
   },
-  backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.7)"
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    flex: 1
   }
 });

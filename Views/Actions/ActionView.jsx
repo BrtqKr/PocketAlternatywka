@@ -1,6 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
-import { Button } from "react-native-ui-kitten";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  AsyncStorage,
+  Button
+} from "react-native";
 import { StatsConsumer } from "../../Providers/StatsProviderConfig";
 import { ItemsConsumer } from "../../Providers/ItemsProviderConfig";
 import TakeButton from "./components/TakeButton";
@@ -28,9 +33,8 @@ function ActionsView() {
                   <Button
                     style={styles.button}
                     onPress={async () => AsyncStorage.clear()}
-                  >
-                    Clear storage
-                  </Button>
+                    title="Clear storage"
+                  />
                 </View>
               )}
             </StatsConsumer>
@@ -48,11 +52,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
-    width: Dimensions.get("window").width
+    width: Dimensions.get("window").width,
+    bottom: "5%"
   },
   button: {
     margin: 15,
-    width: 210,
+    width: "30%",
     backgroundColor: "gray"
   },
   modalContainer: {
