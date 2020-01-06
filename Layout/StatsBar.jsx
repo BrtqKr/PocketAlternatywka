@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Text, View, StyleSheet, Animated, Dimensions } from "react-native";
 import { withNavigationFocus } from "react-navigation";
+import normalize from "react-native-normalize";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -57,21 +58,22 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 8,
+    padding: normalize(8),
     width: "85%"
   },
   progressBar: {
     flexDirection: "row",
-    height: 15,
+    height: normalize(15),
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "#000",
-    borderWidth: 1.5,
-    borderRadius: 10,
+    borderWidth: normalize(1.5),
+    borderRadius: normalize(10),
     overflow: "hidden"
   },
   barText: {
     alignSelf: "flex-start",
-    marginBottom: 8
+    marginBottom: normalize(5, "height"),
+    fontSize: normalize(15)
   }
 });

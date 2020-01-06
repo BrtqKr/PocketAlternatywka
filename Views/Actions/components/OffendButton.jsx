@@ -8,12 +8,13 @@ import {
   Modal,
   TouchableWithoutFeedback
 } from "react-native";
+import normalize from "react-native-normalize";
 
 const offendDictionary = [
   {
     text: "Podważ alternatywność",
     stats: [-0.5, 0, 0.5, 0.2, 0.3, 0, 0.2, 0.2],
-    staminaPrice: 200,
+    staminaPrice: 50,
     summary: "Ale jak to alternatywki są już zbyt powszechne?! ;_;"
   },
   {
@@ -51,20 +52,7 @@ export default function OffendButton(props) {
   };
 
   const spendStamina = stamina => {
-    props.stamina.spendStamina(stamina);
-  };
-
-  const generateAlert = (isValid, text, summary) => {
-    if (isValid) {
-      Alert.alert(text, summary, [{ text: "OK ;_;" }], { cancelable: false });
-    } else {
-      Alert.alert(
-        "Jesteś zbyt zmęczony",
-        "Odpocznij przed wykonaniem kolejnej akcji",
-        [{ text: "OK ;_;" }],
-        { cancelable: false }
-      );
-    }
+    return props.stamina.spendStamina(stamina);
   };
 
   const renderOffendElement = () => (
@@ -74,16 +62,26 @@ export default function OffendButton(props) {
           key={text}
           style={styles.modalButton}
           onPress={() => {
-            setStats(stats, props.statsValue);
-            spendStamina(staminaPrice);
             setVisibility(false);
-            setTimeout(() => {
-              generateAlert(
-                props.stamina.stamina - staminaPrice >= 0,
-                text,
-                summary
-              );
-            }, 1000);
+
+            if (spendStamina(staminaPrice)) {
+              setTimeout(() => {
+                setStats(stats, props.statsValue);
+
+                Alert.alert(text, summary, [{ text: "OK ;_;" }], {
+                  cancelable: false
+                });
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                Alert.alert(
+                  "Jesteś zbyt zmęczony",
+                  "Odpocznij przed wykonaniem kolejnej akcji",
+                  [{ text: "OK ;_;" }],
+                  { cancelable: false }
+                );
+              }, 1000);
+            }
           }}
         >
           <Text style={styles.buttonText}>{text}</Text>
@@ -123,17 +121,17 @@ const styles = StyleSheet.create({
   },
   mainButton: {
     backgroundColor: "#B39DB3",
-    borderRadius: 15,
+    borderRadius: normalize(15),
     overflow: "hidden",
     width: "60%",
-    margin: 5,
+    margin: normalize(5, "height"),
     justifyContent: "center",
     alignItems: "center",
     padding: 7
   },
   buttonText: {
     color: "#F8F8F8",
-    fontSize: 20
+    fontSize: normalize(20)
   },
   modalContainer: {
     justifyContent: "center",
@@ -145,13 +143,13 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     backgroundColor: "#B39DB3",
-    borderRadius: 15,
+    borderRadius: normalize(15),
     overflow: "hidden",
     width: "86%",
-    margin: 5,
+    margin: normalize(5, "height"),
     justifyContent: "center",
     alignItems: "center",
-    padding: 7
+    padding: normalize(7)
   },
   modalOverlay: {
     position: "absolute",

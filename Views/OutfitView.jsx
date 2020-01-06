@@ -9,6 +9,8 @@ import {
   Text,
   TouchableOpacity
 } from "react-native";
+import normalize from "react-native-normalize";
+
 import * as imageDictionary from "./ProfileAddresses";
 import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
@@ -121,8 +123,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap"
   },
   picture: {
-    width: 300,
-    height: 300,
+    width: normalize(300),
+    height: normalize(300),
     borderRadius: 90 / 2,
     overflow: "hidden"
   },
@@ -136,11 +138,11 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 10,
-    fontSize: 25
+    fontSize: normalize(25)
   },
   bottomText: {
-    marginTop: 10,
-    fontSize: 22
+    marginTop: normalize(10),
+    fontSize: normalize(20)
   }
 });
 

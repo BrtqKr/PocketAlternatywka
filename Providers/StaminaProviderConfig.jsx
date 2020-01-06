@@ -23,7 +23,7 @@ class StaminaProvider extends Component {
       const storedDate = new Date(storedResult);
 
       if (this.state.date) {
-        if ((date - storedDate) / 1000 > 5) {
+        if ((date - storedDate) / 1000 > 86400) {
           AsyncStorage.setItem("date", JSON.stringify(date));
           this.increaseStamina();
         }
@@ -43,7 +43,7 @@ class StaminaProvider extends Component {
       AsyncStorage.setItem("stamina", JSON.stringify(100));
     }
     this.setState({
-      stamina: storedStamina || 100,
+      stamina: storedStamina === null ? 100 : storedStamina,
       date: storedDate
     });
     return storedDate;
@@ -91,9 +91,12 @@ class StaminaProvider extends Component {
 
   spendStamina = value => {
     const decreased = this.state.stamina - value;
-    if (decreased >= 0) {
+    if (decreased < 0) {
+      return false;
+    } else {
       this.setState({ stamina: decreased });
       AsyncStorage.setItem("stamina", JSON.stringify(decreased));
+      return true;
     }
   };
 

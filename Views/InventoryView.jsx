@@ -1,5 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
+import normalize from "react-native-normalize";
+
 import * as itemsDictionary from "./Items";
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
 import { ItemsConsumer } from "../Providers/ItemsProviderConfig";
@@ -11,7 +13,7 @@ class InventoryView extends React.Component {
   }
 
   render() {
-    const byAmount = ({ amount }) => amount > 0;
+    const isOwned = ({ amount }) => amount > 0;
 
     return (
       <ItemsConsumer>
@@ -20,7 +22,7 @@ class InventoryView extends React.Component {
             {statsValue => {
               return (
                 <View style={styles.container}>
-                  {itemValue.items.filter(byAmount).map(inventoryItem => (
+                  {itemValue.items.filter(isOwned).map(inventoryItem => (
                     <ItemHolder
                       element={inventoryItem}
                       statsValue={statsValue}
@@ -63,22 +65,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     flexWrap: "wrap",
-    marginLeft: 20,
-    marginRight: 20
+    marginLeft: normalize(20, "width"),
+    marginRight: normalize(20, "width")
   },
   button: {
-    margin: 10
+    margin: normalize(10)
   },
   picture: {
-    width: 80,
-    height: 80,
-    borderRadius: 4,
+    width: normalize(70),
+    height: normalize(70),
+    borderRadius: normalize(4),
     overflow: "hidden",
-    margin: 5
-  },
-  header: {
-    fontSize: 20,
-    marginBottom: 15
+    margin: normalize(5)
   },
   item: {
     alignItems: "center",
@@ -89,7 +87,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     color: "white",
     fontWeight: "bold",
-    fontSize: 22,
+    fontSize: normalize(22),
     alignSelf: "center"
   }
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import Constants from "expo-constants";
+import normalize from "react-native-normalize";
 
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
 import StatsBar from "../Layout/StatsBar";
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingTop: Constants.statusBarHeight,
-    fontSize: 20
+    fontSize: normalize(20),
+    marginBottom: normalize(8)
   },
   barText: {
     alignSelf: "flex-start"

@@ -8,12 +8,13 @@ import {
   Modal,
   TouchableWithoutFeedback
 } from "react-native";
+import normalize from "react-native-normalize";
 
 const sendDictionary = [
   {
     text: "Memucha",
-    stats: [0.05, 0, 0, -0.2, 0.05, 0, 0, 0],
-    staminaPrice: 200,
+    stats: [0.5, 0, 0, -0.2, 0.05, 0, 0, 0],
+    staminaPrice: 50,
     summary: "beka XDDDD"
   },
   {
@@ -39,20 +40,7 @@ export default function SendButton(props) {
   };
 
   const spendStamina = stamina => {
-    props.stamina.spendStamina(stamina);
-  };
-
-  const generateAlert = (isValid, text, summary) => {
-    if (isValid) {
-      Alert.alert(text, summary, [{ text: "OK ;_;" }], { cancelable: false });
-    } else {
-      Alert.alert(
-        "Jesteś zbyt zmęczony",
-        "Odpocznij przed wykonaniem kolejnej akcji",
-        [{ text: "OK ;_;" }],
-        { cancelable: false }
-      );
-    }
+    return props.stamina.spendStamina(stamina);
   };
 
   const renderSendElement = () => (
@@ -62,16 +50,26 @@ export default function SendButton(props) {
           key={text}
           style={styles.modalButton}
           onPress={() => {
-            setStats(stats, props.statsValue);
-            spendStamina(staminaPrice);
             setVisibility(false);
-            setTimeout(() => {
-              generateAlert(
-                props.stamina.stamina - staminaPrice >= 0,
-                text,
-                summary
-              );
-            }, 1000);
+
+            if (spendStamina(staminaPrice)) {
+              setTimeout(() => {
+                setStats(stats, props.statsValue);
+
+                Alert.alert(text, summary, [{ text: "OK ;_;" }], {
+                  cancelable: false
+                });
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                Alert.alert(
+                  "Jesteś zbyt zmęczony",
+                  "Odpocznij przed wykonaniem kolejnej akcji",
+                  [{ text: "OK ;_;" }],
+                  { cancelable: false }
+                );
+              }, 1000);
+            }
           }}
         >
           <Text style={styles.buttonText}>{text}</Text>
@@ -112,17 +110,17 @@ const styles = StyleSheet.create({
   },
   mainButton: {
     backgroundColor: "#B39DB3",
-    borderRadius: 15,
+    borderRadius: normalize(15),
     overflow: "hidden",
     width: "60%",
-    margin: 5,
+    margin: normalize(5, "height"),
     justifyContent: "center",
     alignItems: "center",
     padding: 7
   },
   buttonText: {
     color: "#F8F8F8",
-    fontSize: 20
+    fontSize: normalize(20)
   },
   modalContainer: {
     justifyContent: "center",
@@ -130,17 +128,17 @@ const styles = StyleSheet.create({
     width: "70%",
     alignSelf: "center",
     position: "relative",
-    top: "40%"
+    top: "35%"
   },
   modalButton: {
     backgroundColor: "#B39DB3",
-    borderRadius: 15,
+    borderRadius: normalize(15),
     overflow: "hidden",
     width: "86%",
-    margin: 5,
+    margin: normalize(5, "height"),
     justifyContent: "center",
     alignItems: "center",
-    padding: 7
+    padding: normalize(7)
   },
   modalOverlay: {
     position: "absolute",

@@ -8,13 +8,15 @@ import {
   Modal,
   TouchableWithoutFeedback
 } from "react-native";
+import normalize from "react-native-normalize";
+
 import { CoinsConsumer } from "../../../Providers/CoinsProviderConfig";
 
 const buyDictionary = [
   {
     text: "Weed",
     id: 0,
-    price: 200
+    price: 300
   },
   {
     text: "Szmatę z lumpa",
@@ -67,8 +69,9 @@ export default function BuyButton(props) {
                           {
                             text: "OK ;_;",
                             onPress: () => {
-                              props.itemValue.increase(id);
-                              coinsProperties.spendCoins(price);
+                              if (coinsProperties.spendCoins(price))
+                                props.itemValue.increase(id);
+                              // coinsProperties.spendCoins(price);
                             }
                           },
                           {
@@ -122,17 +125,17 @@ const styles = StyleSheet.create({
   },
   mainButton: {
     backgroundColor: "#B39DB3",
-    borderRadius: 15,
+    borderRadius: normalize(15),
     overflow: "hidden",
     width: "60%",
-    margin: 5,
+    margin: normalize(5, "height"),
     justifyContent: "center",
     alignItems: "center",
     padding: 7
   },
   buttonText: {
     color: "#F8F8F8",
-    fontSize: 20
+    fontSize: normalize(20)
   },
   modalContainer: {
     justifyContent: "center",
@@ -144,13 +147,13 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     backgroundColor: "#B39DB3",
-    borderRadius: 15,
+    borderRadius: normalize(15),
     overflow: "hidden",
     width: "86%",
-    margin: 5,
+    margin: normalize(5, "height"),
     justifyContent: "center",
     alignItems: "center",
-    padding: 7
+    padding: normalize(7)
   },
   modalOverlay: {
     position: "absolute",

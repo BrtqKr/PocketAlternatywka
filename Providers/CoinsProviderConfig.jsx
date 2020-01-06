@@ -1,6 +1,6 @@
 // /* eslint-disable react/destructuring-assignment */
 import React, { Component, createContext } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import axios from "react-native-axios";
 
 const { Provider, Consumer } = createContext();
@@ -15,7 +15,7 @@ class CoinsProvider extends Component {
   }
 
   async componentDidMount() {
-    const dateResult = this.loadFromStorage();
+    const dateResult = await this.loadFromStorage();
     try {
       const resp = await axios.get("http://worldtimeapi.org/api/ip");
 
@@ -23,7 +23,7 @@ class CoinsProvider extends Component {
       const storedDate = new Date(dateResult);
 
       if (this.state.date) {
-        if ((date - storedDate) / 1000 > 5) {
+        if ((date - storedDate) / 1000 > 86400) {
           AsyncStorage.setItem("date", JSON.stringify(date));
           this.increaseCoins();
         }
@@ -40,12 +40,13 @@ class CoinsProvider extends Component {
     const storedCoins = await this.getStoredCoins();
     const storedDate = await this.getStoredDate();
     if (!storedCoins) {
-      AsyncStorage.setItem("coins", JSON.stringify(1000));
+      AsyncStorage.setItem("coins", JSON.stringify(400));
     }
     this.setState({
-      coins: storedCoins || 1000,
+      coins: storedCoins === null ? 400 : storedCoins,
       date: storedDate
     });
+    console.warn(storedCoins);
     return storedDate;
   };
 
@@ -88,10 +89,18 @@ class CoinsProvider extends Component {
 
   spendCoins = amount => {
     const decreased = this.state.coins - amount;
-    if (decreased < 0) console.warn("Not enough money");
-    else {
+    if (decreased < 0) {
+      Alert.alert(
+        "Sklep",
+        "Nie stać cię. Poczekaj do kolejnej wypłaty...",
+        [{ text: "OK ;_;" }],
+        { cancelable: false }
+      );
+      return false;
+    } else {
       this.setState({ coins: decreased });
       AsyncStorage.setItem("coins", JSON.stringify(decreased));
+      return true;
     }
   };
 

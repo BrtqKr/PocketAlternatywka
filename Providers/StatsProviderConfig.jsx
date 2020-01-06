@@ -29,8 +29,7 @@ class StatsProvider extends Component {
       const storedDate = new Date(storedResult);
 
       if (this.state.date) {
-        if ((date - storedDate) / 1000 > 5) {
-          console.warn("reducing");
+        if ((date - storedDate) / 1000 > 86400) {
           AsyncStorage.setItem("statsDate", JSON.stringify(date));
           this.setStats(
             reductionStats.map(a => (a * (date - storedDate)) / 5000)

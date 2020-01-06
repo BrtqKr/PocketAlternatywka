@@ -6,6 +6,8 @@ import {
   AsyncStorage,
   Button
 } from "react-native";
+import normalize from "react-native-normalize";
+
 import { StatsConsumer } from "../../Providers/StatsProviderConfig";
 import { ItemsConsumer } from "../../Providers/ItemsProviderConfig";
 import TakeButton from "./components/TakeButton";
@@ -59,15 +61,15 @@ const styles = StyleSheet.create({
     bottom: "5%"
   },
   button: {
-    margin: 15,
+    margin: normalize(15, "height"),
     width: "30%",
     backgroundColor: "gray"
   },
   modalContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 256,
-    padding: 16
+    width: normalize(256),
+    padding: normalize(16)
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.7)"
