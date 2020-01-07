@@ -40,7 +40,7 @@ class StatsProvider extends Component {
         AsyncStorage.setItem("statsDate", JSON.stringify(date));
       }
     } catch (err) {
-      this.setState({ error: err });
+      console.log(err);
     }
   }
 

@@ -18,13 +18,14 @@ class ProfileProvider extends Component {
   }
 
   async componentDidMount() {
-    const dateResult = await this.requestDate();
-    const date = new Date(dateResult.data.datetime);
+    const storedResult = await this.loadFromStorage();
+
     try {
-      const storedResult = await this.loadFromStorage();
+      const dateResult = await this.requestDate();
+      const date = new Date(dateResult.data.datetime);
+
       const storedDate = new Date(storedResult);
 
-      this.setState({});
       if (this.state.date) {
         if ((date - storedDate) / 1000 > 5) {
           AsyncStorage.setItem("profileDate", JSON.stringify(date));
@@ -42,7 +43,7 @@ class ProfileProvider extends Component {
     const profile = await this.getStoredProfile();
     const storedDate = await this.getStoredDate();
     this.setState({
-      profile: profile || defaultProfile,
+      profile: profile === null ? defaultProfile : profile,
       date: storedDate
     });
     return storedDate;
@@ -98,6 +99,7 @@ class ProfileProvider extends Component {
     } catch (err) {
       console.log(err);
     }
+
     this.setState({
       profile: {
         title: profile.title,

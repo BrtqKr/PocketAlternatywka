@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { createAppContainer } from "react-navigation";
@@ -8,6 +8,8 @@ import HomeView from "../Views/HomeView";
 import StatsView from "../Views/StatsView";
 import InventoryView from "../Views/InventoryView";
 import ActionsView from "../Views/Actions/ActionView";
+import HeartButton from "./HomeButton/HeartButton";
+import NavigationService from "./HomeButton/NavigationService";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -30,8 +32,11 @@ const TabNavigator = createBottomTabNavigator(
     Home: {
       screen: HomeView,
       navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="heart" color={tintColor} size={24} />
+        // tabBarIcon: ({ tintColor }) => (
+        //   <Icon name="heart" color={tintColor} size={24} />
+        // )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <HeartButton color={tintColor} focused={focused} />
         )
       })
     },
@@ -65,4 +70,16 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-export default createAppContainer(TabNavigator);
+const NavAppCointainer = createAppContainer(TabNavigator);
+
+export default class Nav extends Component {
+  render() {
+    return (
+      <NavAppCointainer
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
+    );
+  }
+}

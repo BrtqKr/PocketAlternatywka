@@ -75,7 +75,8 @@ const profilePics = [
 class OutfitView extends React.Component {
   setProfile = async (id, value, stats) => {
     const validChange = await value.setProfile(profilePics[id]);
-    if (validChange) stats.setStats([0.1, 0.1, 0, 0, 0, 0, 0, 0]);
+    console.warn(validChange);
+    if (validChange) stats.setStats([0.5, 0.1, 0, 0, 0, 0, 0, 0]);
   };
 
   render() {
