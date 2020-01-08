@@ -50,13 +50,11 @@ class CoinsBar extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "center",
     backgroundColor: "#FFCCF1",
     width: "100%",
-    height: "10%",
+    height: "11%",
     paddingBottom: "4%",
-    // marginBottom: "3%"
   },
   innerContainer: {
     justifyContent: "space-between",
@@ -65,10 +63,9 @@ const styles = StyleSheet.create({
     paddingLeft: "22%",
     paddingRight: "22%",
     paddingTop: "13%",
-    paddingBottom: "5%",
-    height: "10%",
+    // paddingBottom: "10%",
+    height: "11%",
 
-    // marginBottom: "55%",
     width: "100%",
     backgroundColor: "#FFCCF1",
   }
