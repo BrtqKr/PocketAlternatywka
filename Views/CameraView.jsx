@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform
 } from "react-native";
+import { withNavigationFocus } from 'react-navigation';
 import Constants from "expo-constants";
 import { Camera } from "expo-camera";
 import * as FileSystem from "expo-file-system";
@@ -56,7 +57,7 @@ const wbIcons = {
   incandescent: "wb-incandescent"
 };
 
-export default class CameraView extends React.Component {
+class CameraView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -369,30 +370,35 @@ export default class CameraView extends React.Component {
     </View>
   );
 
-  renderCamera = () => (
+  renderCamera = (isFocused) => (
     <View style={{ flex: 1 }}>
-      <Camera
-        ref={ref => {
-          this.camera = ref;
-        }}
-        style={styles.camera}
-        onCameraReady={this.collectPictureSizes}
-        type={this.state.type}
-        flashMode={this.state.flash}
-        autoFocus={this.state.autoFocus}
-        zoom={this.state.zoom}
-        whiteBalance={this.state.whiteBalance}
-        ratio={this.state.ratio}
-        pictureSize={this.state.pictureSize}
-        onMountError={this.handleMountError}
-        onFacesDetected={
-          this.state.faceDetecting ? this.onFacesDetected : undefined
-        }
-        onFaceDetectionError={this.onFaceDetectionError}
-      >
-        {this.renderTopBar()}
-        {this.renderBottomBar()}
-      </Camera>
+      {isFocused && (
+        <Camera
+          ref={ref => {
+            this.camera = ref;
+          }}
+          style={styles.camera}
+          onCameraReady={this.collectPictureSizes}
+          type={this.state.type}
+          flashMode={this.state.flash}
+          autoFocus={this.state.autoFocus}
+          zoom={this.state.zoom}
+          whiteBalance={this.state.whiteBalance}
+          ratio={this.state.ratio}
+          pictureSize={this.state.pictureSize}
+          onMountError={this.handleMountError}
+          onFacesDetected={
+            this.state.faceDetecting ? this.onFacesDetected : undefined
+          }
+          onFaceDetectionError={this.onFaceDetectionError}
+        >
+          {this.renderTopBar()}
+          {this.renderBottomBar()}
+        </Camera>
+      )
+
+
+      }
       {this.state.faceDetecting && this.renderFaces()}
       {this.state.faceDetecting && this.renderLandmarks()}
       {this.state.showMoreOptions && this.renderMoreOptions()}
@@ -400,8 +406,10 @@ export default class CameraView extends React.Component {
   );
 
   render() {
+    const { isFocused } = this.props;
+
     const cameraScreenContent = this.state.permissionsGranted
-      ? this.renderCamera()
+      ? this.renderCamera(isFocused)
       : this.renderNoPermissions();
     const content = this.state.showGallery
       ? this.renderGallery()
@@ -543,3 +551,5 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   }
 });
+
+export default withNavigationFocus(CameraView);

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, StatusBar } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import normalize from "react-native-normalize";
 
@@ -10,8 +10,6 @@ class CoinsBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // StatusBar.setTranslucent(true);
-    // StatusBar.setBackgroundColor("red");
   }
 
   componentDidMount() { }
@@ -53,8 +51,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFCCF1",
     width: "100%",
-    height: "11%",
-    paddingBottom: "4%",
+    height: "8%",
+    paddingBottom: "6%",
   },
   innerContainer: {
     justifyContent: "space-between",
@@ -62,9 +60,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingLeft: "22%",
     paddingRight: "22%",
-    paddingTop: "13%",
-    // paddingBottom: "10%",
-    height: "11%",
+    paddingTop: "9%",
+    height: "8%",
 
     width: "100%",
     backgroundColor: "#FFCCF1",

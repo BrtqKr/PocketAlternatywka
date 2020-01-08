@@ -45,9 +45,6 @@ function StatsView() {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    // justifyContent: "center",
-    // flexWrap: "wrap",
-    // paddingTop: "4%",
     marginTop: "4%",
     marginBottom: "15%",
     width: "100%"
