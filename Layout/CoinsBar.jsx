@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import normalize from "react-native-normalize";
 
@@ -10,7 +10,11 @@ class CoinsBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    // StatusBar.setTranslucent(true);
+    // StatusBar.setBackgroundColor("red");
   }
+
+  componentDidMount() { }
 
   render() {
     return (
@@ -21,14 +25,9 @@ class CoinsBar extends React.Component {
               <CoinsConsumer>
                 {coinsProperties => {
                   return (
-                    <View style={styles.container}>
+                    <View style={styles.innerContainer}>
                       <Text>
-                        <Icon
-                          name="bolt"
-                          color="black"
-                          style={styles.icon}
-                          size={normalize(15)}
-                        />
+                        <Icon name="bolt" color="black" size={normalize(15)} />
                         <Text> </Text>
                         {staminaProperties.stamina}
                       </Text>
@@ -51,24 +50,27 @@ class CoinsBar extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "flex-end",
+    // flex: 1,
+    alignItems: "center",
+    backgroundColor: "#FFCCF1",
+    width: "100%",
+    height: "10%",
+    paddingBottom: "4%",
+    // marginBottom: "3%"
+  },
+  innerContainer: {
     justifyContent: "space-between",
     flexWrap: "wrap",
     flexDirection: "row",
-    marginBottom: "5%",
-    backgroundColor: "#FFCCF1",
+    paddingLeft: "22%",
+    paddingRight: "22%",
+    paddingTop: "13%",
+    paddingBottom: "5%",
+    height: "10%",
+
+    // marginBottom: "55%",
     width: "100%",
-    height: "9%",
-    paddingLeft: "13%",
-    paddingRight: "13%",
-    paddingTop: "15%"
-  },
-  bottomText: {
-    margin: normalize(10),
-    fontSize: normalize(22)
-  },
-  staminaContainer: {
-    justifyContent: "space-between"
+    backgroundColor: "#FFCCF1",
   }
 });
 

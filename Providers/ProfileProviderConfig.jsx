@@ -1,6 +1,7 @@
 import React, { Component, createContext } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import axios from "react-native-axios";
+import NetInfo from "@react-native-community/netinfo";
 
 const { Provider, Consumer } = createContext();
 
@@ -14,10 +15,23 @@ const defaultProfile = {
 class ProfileProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = { profile: null, date: null };
+    this.state = { profile: null, date: null, connectionStatus: "" };
   }
 
   async componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      this.handleConnectivityChange
+    );
+
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if (isConnected === true) {
+        this.setState({ connectionStatus: "Online" });
+      } else {
+        this.setState({ connectionStatus: "Offline" });
+      }
+    });
+
     const storedResult = await this.loadFromStorage();
 
     try {
@@ -38,6 +52,21 @@ class ProfileProvider extends Component {
       console.log(err);
     }
   }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      "connectionChange",
+      this.handleConnectivityChange
+    );
+  }
+
+  handleConnectivityChange = isConnected => {
+    if (isConnected === true) {
+      this.setState({ connectionStatus: "Online" });
+    } else {
+      this.setState({ connectionStatus: "Offline" });
+    }
+  };
 
   loadFromStorage = async () => {
     const profile = await this.getStoredProfile();
@@ -85,21 +114,30 @@ class ProfileProvider extends Component {
 
   setProfile = async profile => {
     let valid = false;
-    try {
-      const resp = await axios.get("http://worldtimeapi.org/api/ip");
-      const date = new Date(resp.data.datetime);
-      const storedDate = new Date(this.state.date);
+    if (this.state.connectionStatus === "Online") {
+      try {
+        const resp = await axios.get("http://worldtimeapi.org/api/ip");
+        const date = new Date(resp.data.datetime);
+        const storedDate = new Date(this.state.date);
 
-      if ((date - storedDate) / 1000 > 5) {
-        if (profile.id !== this.state.profile.id) valid = true;
+        if ((date - storedDate) / 1000 > 5) {
+          if (profile.id !== this.state.profile.id) valid = true;
+        }
+
+        this.setState({ date: resp.data.datetime });
+        AsyncStorage.setItem("profileDate", JSON.stringify(date));
+      } catch (err) {
+        console.log(err);
       }
-
-      this.setState({ date: resp.data.datetime });
-      AsyncStorage.setItem("profileDate", JSON.stringify(date));
-    } catch (err) {
-      console.log(err);
+    } else if (this.state.connectionStatus === "Offline") {
+      Alert.alert(
+        "Alternatywka",
+        "Nie mogę zmienić outfitu bez Internetu -,-' nie wiem czy będę wtedy inna niż wszystkie",
+        [{ text: "OK ;_;" }],
+        { cancelable: false }
+      );
+      return false;
     }
-
     this.setState({
       profile: {
         title: profile.title,

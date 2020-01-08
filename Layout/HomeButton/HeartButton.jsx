@@ -64,7 +64,7 @@ const HeartButton = props => {
           ref={animateRef}
           style={{ textAlign: "center" }}
         >
-          <Icon name="heart" solid size={60} color={props.color} />
+          <Icon name="heart" solid size={50} color={props.color} />
         </Animatable.View>
       </TouchableHighlight>
     </View>

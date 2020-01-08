@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Text, View, StyleSheet, Animated, Dimensions } from "react-native";
 import { withNavigationFocus } from "react-navigation";
-import normalize from "react-native-normalize";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -26,25 +25,25 @@ const StatsBar = props => {
         <Animated.View
           style={
             ([StyleSheet.absoluteFill],
-            {
-              backgroundColor:
-                // eslint-disable-next-line no-nested-ternary
-                props.value > 0.7
-                  ? "#43c916"
-                  : props.value > 0.4
-                  ? "#f2d30a"
-                  : "#d41d0d",
-              width: "100%",
-              transform: [
-                {
-                  translateX: Animated.multiply(
-                    Animated.subtract(scaleX, 1),
-                    0.5 * (screenWidth * 0.85 - 16)
-                  )
-                },
-                { scaleX }
-              ]
-            })
+              {
+                backgroundColor:
+                  // eslint-disable-next-line no-nested-ternary
+                  props.value > 0.7
+                    ? "#43c916"
+                    : props.value > 0.4
+                      ? "#f2d30a"
+                      : "#d41d0d",
+                width: "100%",
+                transform: [
+                  {
+                    translateX: Animated.multiply(
+                      Animated.subtract(scaleX, 1),
+                      0.5 * (screenWidth * 0.85 - 16)
+                    )
+                  },
+                  { scaleX }
+                ]
+              })
           }
         />
       </View>
@@ -58,22 +57,22 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    padding: normalize(8),
+    padding: 8,
     width: "85%"
   },
   progressBar: {
     flexDirection: "row",
-    height: normalize(15),
+    height: 15,
     width: "100%",
     backgroundColor: "transparent",
-    borderColor: "#000",
-    borderWidth: normalize(1.5),
-    borderRadius: normalize(10),
+    borderColor: "black",
+    borderWidth: 1.5,
+    borderRadius: 10,
     overflow: "hidden"
   },
   barText: {
     alignSelf: "flex-start",
-    marginBottom: normalize(5, "height"),
-    fontSize: normalize(15)
+    marginBottom: 5,
+    fontSize: 15
   }
 });
