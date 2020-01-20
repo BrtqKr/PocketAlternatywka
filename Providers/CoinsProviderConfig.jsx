@@ -46,7 +46,7 @@ class CoinsProvider extends Component {
       coins: storedCoins === null ? 400 : storedCoins,
       date: storedDate
     });
-    console.warn(storedCoins);
+    // console.warn(storedCoins);
     return storedDate;
   };
 

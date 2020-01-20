@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Alert,
   StyleSheet,
   Text,
   View,
@@ -12,15 +11,11 @@ import Constants from "expo-constants";
 import { Camera } from "expo-camera";
 import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
-
-// import GalleryScreen from "./GalleryScreen";
+import * as MediaLibrary from 'expo-media-library';
 
 import {
   Ionicons,
   MaterialIcons,
-  Foundation,
-  MaterialCommunityIcons,
-  Octicons
 } from "@expo/vector-icons";
 
 const landmarkSize = 2;
@@ -68,16 +63,12 @@ class CameraView extends React.Component {
       whiteBalance: "auto",
       ratio: "16:9",
       ratios: [],
-      barcodeScanning: false,
-      faceDetecting: false,
       faces: [],
       newPhotos: false,
       permissionsGranted: false,
       pictureSize: undefined,
       pictureSizes: [],
       pictureSizeId: 0,
-      showGallery: false,
-      showMoreOptions: false
     };
   }
 
@@ -98,12 +89,6 @@ class CameraView extends React.Component {
     const ratios = await this.camera.getSupportedRatios();
     return ratios;
   };
-
-  toggleView = () =>
-    this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
-
-  toggleMoreOptions = () =>
-    this.setState({ showMoreOptions: !this.state.showMoreOptions });
 
   toggleFacing = () =>
     this.setState({ type: this.state.type === "back" ? "front" : "back" });
@@ -131,9 +116,6 @@ class CameraView extends React.Component {
 
   setFocusDepth = depth => this.setState({ depth });
 
-  toggleFaceDetection = () =>
-    this.setState({ faceDetecting: !this.state.faceDetecting });
-
   takePicture = () => {
     if (this.camera) {
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
@@ -143,16 +125,15 @@ class CameraView extends React.Component {
   handleMountError = ({ message }) => console.error(message);
 
   onPictureSaved = async photo => {
-    await FileSystem.moveAsync({
-      from: photo.uri,
-      to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`
-    });
-    this.setState({ newPhotos: true });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status !== 'granted') {
+      throw new Error('Denied CAMERA_ROLL permissions!');
+    }
+
+    const promise = MediaLibrary.createAssetAsync(photo.uri);
+    await promise;
+
   };
-
-  onFacesDetected = ({ faces }) => this.setState({ faces });
-
-  onFaceDetectionError = state => console.warn("Faces detection error:", state);
 
   collectPictureSizes = async () => {
     if (this.camera) {
@@ -173,95 +154,6 @@ class CameraView extends React.Component {
       });
     }
   };
-
-  previousPictureSize = () => this.changePictureSize(1);
-
-  nextPictureSize = () => this.changePictureSize(-1);
-
-  changePictureSize = direction => {
-    let newId = this.state.pictureSizeId + direction;
-    const length = this.state.pictureSizes.length;
-    if (newId >= length) {
-      newId = 0;
-    } else if (newId < 0) {
-      newId = length - 1;
-    }
-    this.setState({
-      pictureSize: this.state.pictureSizes[newId],
-      pictureSizeId: newId
-    });
-  };
-
-  //   renderGallery() {
-  //     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
-  //   }
-
-  //   renderFace({ bounds, faceID, rollAngle, yawAngle }) {
-  //     return (
-  //       <View
-  //         key={faceID}
-  //         transform={[
-  //           { perspective: 600 },
-  //           { rotateZ: `${rollAngle.toFixed(0)}deg` },
-  //           { rotateY: `${yawAngle.toFixed(0)}deg` }
-  //         ]}
-  //         style={[
-  //           styles.face,
-  //           {
-  //             ...bounds.size,
-  //             left: bounds.origin.x,
-  //             top: bounds.origin.y
-  //           }
-  //         ]}
-  //       >
-  //         <Text style={styles.faceText}>ID: {faceID}</Text>
-  //         <Text style={styles.faceText}>rollAngle: {rollAngle.toFixed(0)}</Text>
-  //         <Text style={styles.faceText}>yawAngle: {yawAngle.toFixed(0)}</Text>
-  //       </View>
-  //     );
-  //   }
-
-  //   renderLandmarksOfFace(face) {
-  //     const renderLandmark = position =>
-  //       position && (
-  //         <View
-  //           style={[
-  //             styles.landmark,
-  //             {
-  //               left: position.x - landmarkSize / 2,
-  //               top: position.y - landmarkSize / 2
-  //             }
-  //           ]}
-  //         />
-  //       );
-  //     return (
-  //       <View key={`landmarks-${face.faceID}`}>
-  //         {renderLandmark(face.leftEyePosition)}
-  //         {renderLandmark(face.rightEyePosition)}
-  //         {renderLandmark(face.leftEarPosition)}
-  //         {renderLandmark(face.rightEarPosition)}
-  //         {renderLandmark(face.leftCheekPosition)}
-  //         {renderLandmark(face.rightCheekPosition)}
-  //         {renderLandmark(face.leftMouthPosition)}
-  //         {renderLandmark(face.mouthPosition)}
-  //         {renderLandmark(face.rightMouthPosition)}
-  //         {renderLandmark(face.noseBasePosition)}
-  //         {renderLandmark(face.bottomMouthPosition)}
-  //       </View>
-  //     );
-  //   }
-
-  renderFaces = () => (
-    <View style={styles.facesContainer} pointerEvents="none">
-      {this.state.faces.map(this.renderFace)}
-    </View>
-  );
-
-  renderLandmarks = () => (
-    <View style={styles.facesContainer} pointerEvents="none">
-      {this.state.faces.map(this.renderLandmarksOfFace)}
-    </View>
-  );
 
   renderNoPermissions = () => (
     <View style={styles.noPermissions}>
@@ -305,67 +197,14 @@ class CameraView extends React.Component {
 
   renderBottomBar = () => (
     <View style={styles.bottomBar}>
-      <TouchableOpacity
-        style={styles.bottomButton}
-        onPress={this.toggleMoreOptions}
-      >
-        <Octicons name="kebab-horizontal" size={30} color="white" />
-      </TouchableOpacity>
-      <View style={{ flex: 0.4 }}>
+
+      <View style={{ flex: 1 }}>
         <TouchableOpacity
           onPress={this.takePicture}
           style={{ alignSelf: "center" }}
         >
           <Ionicons name="ios-radio-button-on" size={70} color="white" />
         </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.bottomButton} onPress={this.toggleView}>
-        <View>
-          <Foundation name="thumbnails" size={30} color="white" />
-          {this.state.newPhotos && <View style={styles.newPhotosDot} />}
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-
-  renderMoreOptions = () => (
-    <View style={styles.options}>
-      <View style={styles.detectors}>
-        <TouchableOpacity onPress={this.toggleFaceDetection}>
-          <MaterialIcons
-            name="tag-faces"
-            size={32}
-            color={this.state.faceDetecting ? "white" : "#858585"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.toggleBarcodeScanning}>
-          <MaterialCommunityIcons
-            name="barcode-scan"
-            size={32}
-            color={this.state.barcodeScanning ? "white" : "#858585"}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.pictureSizeContainer}>
-        <Text style={styles.pictureQualityLabel}>Picture quality</Text>
-        <View style={styles.pictureSizeChooser}>
-          <TouchableOpacity
-            onPress={this.previousPictureSize}
-            style={{ padding: 6 }}
-          >
-            <Ionicons name="md-arrow-dropleft" size={14} color="white" />
-          </TouchableOpacity>
-          <View style={styles.pictureSizeLabel}>
-            <Text style={{ color: "white" }}>{this.state.pictureSize}</Text>
-          </View>
-          <TouchableOpacity
-            onPress={this.nextPictureSize}
-            style={{ padding: 6 }}
-          >
-            <Ionicons name="md-arrow-dropright" size={14} color="white" />
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -387,10 +226,7 @@ class CameraView extends React.Component {
           ratio={this.state.ratio}
           pictureSize={this.state.pictureSize}
           onMountError={this.handleMountError}
-          onFacesDetected={
-            this.state.faceDetecting ? this.onFacesDetected : undefined
-          }
-          onFaceDetectionError={this.onFaceDetectionError}
+
         >
           {this.renderTopBar()}
           {this.renderBottomBar()}
@@ -399,9 +235,6 @@ class CameraView extends React.Component {
 
 
       }
-      {this.state.faceDetecting && this.renderFaces()}
-      {this.state.faceDetecting && this.renderLandmarks()}
-      {this.state.showMoreOptions && this.renderMoreOptions()}
     </View>
   );
 
@@ -411,9 +244,7 @@ class CameraView extends React.Component {
     const cameraScreenContent = this.state.permissionsGranted
       ? this.renderCamera(isFocused)
       : this.renderNoPermissions();
-    const content = this.state.showGallery
-      ? this.renderGallery()
-      : cameraScreenContent;
+    const content = cameraScreenContent;
     return <View style={styles.container}>{content}</View>;
   }
 }
@@ -435,11 +266,11 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight / 2
   },
   bottomBar: {
-    paddingBottom: 5,
+    paddingBottom: "5%",
     backgroundColor: "transparent",
     alignSelf: "flex-end",
     justifyContent: "space-between",
-    flex: 0.12,
+    flex: 0.17,
     flexDirection: "row"
   },
   noPermissions: {
@@ -471,7 +302,8 @@ const styles = StyleSheet.create({
     flex: 0.3,
     height: 58,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop: "10%"
   },
   newPhotosDot: {
     position: "absolute",

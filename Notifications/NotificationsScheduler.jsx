@@ -37,7 +37,7 @@ export async function pickNotification() {
 
 export async function initNotification() {
   const notification = await pickNotification();
-  console.warn(notification);
+  // console.warn(notification);
   const localnotification = {
     title: notificationsDictionary.notifications[notification].title,
     body: notificationsDictionary.notifications[notification].body,

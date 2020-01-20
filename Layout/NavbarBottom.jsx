@@ -11,6 +11,7 @@ import ActionsView from "../Views/Actions/ActionView";
 import HeartButton from "./HomeButton/HeartButton";
 import NavigationService from "./HomeButton/NavigationService";
 import CameraView from "../Views/CameraView";
+import CustomGeneratorView from "../Views/CustomGeneratorView";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -67,6 +68,14 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon name="camera" color={tintColor} size={24} />
+        )
+      })
+    },
+    CustomGenerator: {
+      screen: CustomGeneratorView,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="poop" color={tintColor} size={24} />
         )
       })
     }

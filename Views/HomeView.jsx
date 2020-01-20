@@ -11,17 +11,17 @@ class HomeView extends React.Component {
     this.state = {};
   }
 
-  renderPortrait = value => {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>{value.title}</Text>
+  // renderPortrait = value => {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.title}>{value.title}</Text>
 
-        <Image source={imageDictionary[value.img]} style={styles.picture} />
+  //       <Image source={{ uri: value.img }} style={styles.picture} />
 
-        <Text style={styles.bottomText}>{value.description}</Text>
-      </View>
-    );
-  };
+  //       <Text style={styles.bottomText}>{value.description}</Text>
+  //     </View>
+  //   );
+  // };
 
   render() {
     return (
@@ -32,7 +32,7 @@ class HomeView extends React.Component {
               <Text style={styles.title}>{value.title}</Text>
 
               <Image
-                source={imageDictionary[value.img]}
+                source={value.type === "defined" ? imageDictionary[value.img] : { uri: value.img }}
                 style={styles.picture}
               />
 
