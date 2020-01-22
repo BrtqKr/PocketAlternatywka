@@ -132,6 +132,9 @@ class CameraView extends React.Component {
 
     const promise = MediaLibrary.createAssetAsync(photo.uri);
     await promise;
+    this.props.navigation.navigate("CustomGenerator", {
+      uri: photo.uri
+    });
 
   };
 

@@ -10,6 +10,7 @@ import {
   TouchableOpacity, AsyncStorage
 } from "react-native";
 import normalize from "react-native-normalize";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import * as imageDictionary from "./ProfileAddresses";
 import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
@@ -169,24 +170,27 @@ class OutfitView extends React.Component {
 
 
 
+
                   <View key={100} style={styles.scrollContainer}>
                     <TouchableOpacity
                       activeOpacity={0.7}
+                      style={styles.upperHalf}
                       onPress={() => this.props.navigation.navigate("Camera")}
                     >
-                      <Text style={{ fontSize: 30 }}>Take photo</Text>
+                      <Icon name="camera" color='#F8F8F8' size={75} />
                     </TouchableOpacity>
+
                     <TouchableOpacity
                       activeOpacity={0.7}
+                      style={styles.lowerHalf}
                       onPress={async () => {
                         const imagePicked = await this.pickFromGallery();
-                        this.props.navigation.navigate("CustomGenerator", {
+                        if (imagePicked) this.props.navigation.navigate("CustomGenerator", {
                           uri: imagePicked
                         });
                       }}
                     >
-
-                      <Text style={{ fontSize: 30 }}>Pick existing</Text>
+                      <Icon name="images" color='#F8F8F8' size={75} />
                     </TouchableOpacity>
 
                   </View>
@@ -228,6 +232,26 @@ const styles = StyleSheet.create({
   bottomText: {
     marginTop: normalize(10),
     fontSize: normalize(20)
+  },
+  upperHalf: {
+    width: normalize(300),
+    height: normalize(150),
+    borderTopLeftRadius: 90 / 2,
+    borderTopRightRadius: 90 / 2,
+    overflow: "hidden",
+    backgroundColor: '#F1AFE2',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  lowerHalf: {
+    width: normalize(300),
+    height: normalize(150),
+    borderBottomLeftRadius: 90 / 2,
+    borderBottomRightRadius: 90 / 2,
+    overflow: "hidden",
+    backgroundColor: '#D784C5',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

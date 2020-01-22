@@ -14,6 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from "expo-permissions";
 import { withNavigationFocus } from 'react-navigation';
 import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
+import { preventAutoHide } from "expo/build/launch/SplashScreen";
 
 class CustomGeneratorView extends React.Component {
     constructor(props) {
@@ -22,6 +23,12 @@ class CustomGeneratorView extends React.Component {
             title: "",
             profilePic: this.props.navigation.getParam('uri'),
             bottomText: ""
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.isFocused !== this.props.isFocused) {
+            this.setState({ profilePic: this.props.navigation.getParam('uri') });
         }
     }
 
