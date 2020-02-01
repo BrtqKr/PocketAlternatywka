@@ -1,108 +1,66 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-ui-kitten";
-import * as Progress from "react-native-progress";
+import { StyleSheet, View, Text } from "react-native";
+import Constants from "expo-constants";
+import normalize from "react-native-normalize";
+
 import { StatsConsumer } from "../Providers/StatsProviderConfig";
+import StatsBar from "../Layout/StatsBar";
+import { ScrollView } from "react-native-gesture-handler";
 
-const progressBarProps = {
-  width: 230,
-  height: 8,
-  color: "green",
-  borderColor: "black",
-  borderWidth: 2
-};
+function StatsView() {
+  return (
+    <StatsConsumer>
+      {value => (
 
-class StatsView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <StatsConsumer>
-        {value => (
+        <ScrollView vertical>
           <View style={styles.container}>
             <Text style={styles.header}>Stats</Text>
-            <View style={styles.barSection}>
-              <Text>Alternatywność </Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[0]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Farba na włosach</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[1]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Używki we krwi</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[2]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Depresja</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[3]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Atencja</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[4]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Dziary</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[5]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>LilPep</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[6]}
-              />
-            </View>
-            <View style={styles.barSection}>
-              <Text>Billie Eilish</Text>
-              <Progress.Bar
-                {...progressBarProps} // spread
-                progress={value[7]}
-              />
-            </View>
+
+            <StatsBar barName="Alternatywność" value={value[0]} />
+            <StatsBar barName="Farba na włosach" value={value[1]} />
+            <StatsBar barName="Używki we krwi" value={value[2]} />
+            <StatsBar barName="Depresja" value={value[3]} />
+            <StatsBar barName="Atencja" value={value[4]} />
+            <StatsBar barName="Dziary" value={value[5]} />
+            <StatsBar barName="LilPep" value={value[6]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
+            <StatsBar barName="Billie Eilish" value={value[7]} />
           </View>
-        )}
-      </StatsConsumer>
-    );
-  }
+        </ScrollView>
+
+
+      )
+      }
+    </StatsConsumer >
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap"
+    marginTop: "4%",
+    marginBottom: "15%",
+    width: "100%"
+  },
+  header: {
+    paddingTop: "4%",
+    marginTop: "4%",
+
+    fontSize: 20,
+    marginBottom: 8
   },
   barText: {
     alignSelf: "flex-start"
   },
   barSection: {
     marginBottom: 30
-  },
-  header: {
-    fontSize: 20,
-    marginBottom: 15
   }
 });
 

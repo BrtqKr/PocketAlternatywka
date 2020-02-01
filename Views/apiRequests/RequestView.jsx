@@ -1,62 +1,72 @@
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-  Button
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import axios from "react-native-axios";
+import NetInfo from "@react-native-community/netinfo";
 
-class RequestView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      response: "",
-      error: false
-    };
-  }
+function RequestView(props) {
+  const [loading, setLoading] = useState(true);
+  const [response, setResponse] = useState("");
+  const [error, setError] = useState(false);
+  const [connected, setConnection] = useState(false);
 
-  componentWillMount() {
-    axios
-      .get("https://api.coinbase.com/v2/prices/spot?currency=USD")
-      .then(response => {
-        this.setState({
-          loading: false,
-          response: response.data.data.amount + " USD"
-        });
-      })
-
-      .catch(error => {
-        this.setState({
-          loading: false,
-          error: true
-        });
-      });
-  }
-
-  forceUpdateHandler = () => {
-    this.forceUpdate();
+  const handleConnectionChange = connection => {
+    setConnection(connection.isConnected);
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.loading ? (
-          <ActivityIndicator size="large" color="green" />
-        ) : (
-          <Text>{this.state.response}</Text>
-        )}
-        {this.state.error ? (
-          <ActivityIndicator size="large" color="red" />
-        ) : (
-          <Text></Text>
-        )}
-        <Button title="Reload" />
-      </View>
+  useEffect(() => {
+    getData();
+    const didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        getData();
+      }
     );
-  }
+    const didBlurSubscription = props.navigation.addListener("willBlur", () => {
+      blur();
+    });
+    const didConnectionChange = NetInfo.addEventListener(
+      handleConnectionChange
+    );
+
+    return () => {
+      didFocusSubscription.remove();
+      didBlurSubscription.remove();
+      didConnectionChange();
+    };
+  }, [props.navigation]);
+
+  const getData = async () => {
+    try {
+      setLoading(true);
+      const resp = await axios.get(
+        "https://api.coinbase.com/v2/prices/spot?currency=USD"
+      );
+      await new Promise(r => setTimeout(r, 1000));
+      setLoading(false);
+      setResponse(resp.data.data.amount);
+    } catch (err) {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
+  const blur = () => {
+    setLoading(true);
+    setResponse("");
+    setError(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      {loading ? (
+        <ActivityIndicator size="large" color="green" />
+      ) : (
+        <Text>{connected ? response : null}</Text>
+      )}
+      {error ? <ActivityIndicator size="large" color="red" /> : <Text></Text>}
+      {connected ? null : <Text>No Internet connection...</Text>}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

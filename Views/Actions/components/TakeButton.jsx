@@ -1,19 +1,34 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Modal } from "react-native-ui-kitten";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  TouchableOpacity,
+  Text,
+  Modal,
+  TouchableWithoutFeedback
+} from "react-native";
+import normalize from "react-native-normalize";
 
 const takeDictionary = [
   {
     text: "Wixapol",
-    stats: [0, 0, 0.1, 0.1, 0.15, 0, 0, 0]
+    stats: [0.5, 0.2, -0.5, 0.1, -0.2, 0, 0, 0],
+    staminaPrice: 50,
+    summary:
+      "Anon czemu mi kurwa robisz wyrzuty, że siedziałam zamknięta w kiblu z twoimi kolegami?! -,-'"
   },
   {
-    text: "Sesję na cmentarzu",
-    stats: [0.1, 0.05, 0, 0.2, 0.1, 0, 0, 0]
+    text: "Sesja na cmentarzu",
+    stats: [0.1, 0.05, 0, 0.2, 0.1, 0, 0, 0],
+    staminaPrice: 100,
+    summary: "Idzie na insta, twoja babcia anon nabije mi followersów <3"
   },
   {
     text: "Jaranie weed",
-    stats: [0, 0, -0.1, -0.1, 0.05, 0, 0, 0]
+    stats: [0, 0, -0.1, -0.1, 0.05, 0, 0, 0],
+    staminaPrice: 50,
+    summary: "Następnym razem trzeba z czymś zmieszać..."
   }
 ];
 
@@ -21,62 +36,117 @@ export default function TakeButton(props) {
   const [visible, setVisibility] = useState(false);
 
   const setStats = stats => {
-    props.value.setStats(stats);
+    props.statsValue.setStats(stats);
+  };
+
+  const spendStamina = stamina => {
+    return props.stamina.spendStamina(stamina);
   };
 
   const renderTakeElement = () => (
-    <View>
-      {takeDictionary.map(({ text, stats }) => (
-        <Button
+    <View style={styles.modalContainer}>
+      {takeDictionary.map(({ text, stats, staminaPrice, summary }) => (
+        <TouchableOpacity
           key={text}
-          style={styles.button}
-          status="basic"
+          style={styles.modalButton}
           onPress={() => {
-            setVisibility(!visible);
-            setStats(stats, props.value);
+            setVisibility(false);
+
+            if (spendStamina(staminaPrice)) {
+              setTimeout(() => {
+                setStats(stats, props.statsValue);
+
+                Alert.alert(text, summary, [{ text: "OK ;_;" }], {
+                  cancelable: false
+                });
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                Alert.alert(
+                  "Jesteś zbyt zmęczony",
+                  "Odpocznij przed wykonaniem kolejnej akcji",
+                  [{ text: "OK ;_;" }],
+                  { cancelable: false }
+                );
+              }, 1000);
+            }
           }}
         >
-          {text}
-        </Button>
+          <Text style={styles.buttonText}>{text}</Text>
+        </TouchableOpacity>
       ))}
     </View>
   );
 
   return (
-    <View>
-      <Button
-        style={styles.button}
-        status="basic"
-        onPress={() => setVisibility(!visible)}
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.mainButton}
+        onPress={() => setVisibility(true)}
       >
-        Weź na...
-      </Button>
+        <Text style={styles.buttonText}>Weź na...</Text>
+      </TouchableOpacity>
 
       <Modal
-        allowBackdrop
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisibility(!visible)}
         visible={visible}
-        animationType=""
+        transparent
+        animationType="fade"
+        onRequestClose={() => setVisibility(false)}
       >
+        <TouchableWithoutFeedback onPress={() => setVisibility(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+
         {renderTakeElement()}
       </Modal>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    margin: 15,
-    width: 210,
-    backgroundColor: "gray"
+  container: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  mainButton: {
+    backgroundColor: "#B39DB3",
+    borderRadius: normalize(15),
+    overflow: "hidden",
+    width: "60%",
+    margin: normalize(5, "height"),
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 7
+  },
+  buttonText: {
+    color: "#F8F8F8",
+    fontSize: normalize(20)
   },
   modalContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 256,
-    padding: 16
+    width: "70%",
+    alignSelf: "center",
+    position: "relative",
+    top: "35%"
   },
-  backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.7)"
+  modalButton: {
+    backgroundColor: "#B39DB3",
+    borderRadius: normalize(15),
+    overflow: "hidden",
+    width: "86%",
+    margin: normalize(5, "height"),
+    justifyContent: "center",
+    alignItems: "center",
+    padding: normalize(7)
+  },
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    flex: 1
   }
 });

@@ -1,7 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
+import normalize from "react-native-normalize";
+
 import * as imageDictionary from "./ProfileAddresses";
-import { ConfigConsumer } from "../Providers/ProfileProviderConfig";
+import { ProfileConsumer } from "../Providers/ProfileProviderConfig";
 
 class HomeView extends React.Component {
   constructor(props) {
@@ -9,51 +11,67 @@ class HomeView extends React.Component {
     this.state = {};
   }
 
+  // renderPortrait = value => {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.title}>{value.title}</Text>
+
+  //       <Image source={{ uri: value.img }} style={styles.picture} />
+
+  //       <Text style={styles.bottomText}>{value.description}</Text>
+  //     </View>
+  //   );
+  // };
+
   render() {
     return (
-      <View style={styles.container}>
-        <ConfigConsumer>
-          {value => {
-            return (
-              <View style={styles.container}>
-                <Text style={styles.title}>{value.title}</Text>
+      <ProfileConsumer>
+        {value => {
+          return (
+            <View style={styles.container}>
+              <Text style={styles.title}>{value.title}</Text>
 
-                <Image
-                  source={imageDictionary[value.img]}
-                  style={styles.picture}
-                />
+              <Image
+                source={value.type === "defined" ? imageDictionary[value.img] : { uri: value.img }}
+                style={styles.picture}
+              />
 
-                <Text style={styles.bottomText}>{value.description}</Text>
-              </View>
-            );
-          }}
-        </ConfigConsumer>
-      </View>
+              <Text style={styles.bottomText}>{value.description}</Text>
+            </View>
+          );
+        }}
+      </ProfileConsumer>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    flexWrap: "wrap"
+    marginTop: "20%",
+    width: "100%"
   },
   picture: {
-    width: 300,
-    height: 300,
-    borderRadius: 90 / 2,
+    width: normalize(300),
+    height: normalize(300),
+    borderRadius: normalize(35),
     overflow: "hidden"
   },
 
   title: {
-    marginBottom: 10,
-    fontSize: 25
+    marginBottom: normalize(10),
+    fontSize: normalize(25)
   },
   bottomText: {
-    marginTop: 10,
-    fontSize: 22
+    marginTop: normalize(10),
+    fontSize: normalize(20),
+    marginRight: normalize(10),
+    marginLeft: normalize(10)
+  },
+  coinBar: {
+    width: 30,
+    height: 30
   }
 });
 

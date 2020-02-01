@@ -1,10 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component, createContext } from "react";
 import { AsyncStorage } from "react-native";
+import axios from "react-native-axios";
 
 const { Provider, Consumer } = createContext();
 
 const defaultStats = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+const reductionStats = [-0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1];
 
 function checkBorders(a, b) {
   if (a + b >= 1) return 1;
@@ -15,15 +17,41 @@ function checkBorders(a, b) {
 class StatsProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = { stats: null };
-    this.loadFromStorage();
+    this.state = { stats: null, date: null };
+  }
+
+  async componentDidMount() {
+    const storedResult = await this.loadFromStorage();
+    try {
+      const resp = await axios.get("http://worldtimeapi.org/api/ip");
+
+      const date = new Date(resp.data.datetime);
+      const storedDate = new Date(storedResult);
+
+      if (this.state.date) {
+        if ((date - storedDate) / 1000 > 86400) {
+          AsyncStorage.setItem("statsDate", JSON.stringify(date));
+          this.setStats(
+            reductionStats.map(a => (a * (date - storedDate)) / 5000)
+          );
+        }
+      } else {
+        this.setState({ date: resp.data.datetime });
+        AsyncStorage.setItem("statsDate", JSON.stringify(date));
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   loadFromStorage = async () => {
     const stats = await this.getStoredStats();
+    const storedDate = await this.getStoredDate();
     this.setState({
-      stats: stats || defaultStats
+      stats: stats || defaultStats,
+      date: storedDate
     });
+    return storedDate;
   };
 
   getStoredStats = async () => {
@@ -34,6 +62,20 @@ class StatsProvider extends Component {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
+    }
+    return null;
+  };
+
+  getStoredDate = async () => {
+    try {
+      const retreivedDate = await AsyncStorage.getItem("statsDate");
+
+      const date = JSON.parse(retreivedDate);
+
+      return date;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
     return null;
   };
@@ -74,5 +116,4 @@ class StatsProvider extends Component {
     );
   }
 }
-
 export { StatsProvider, Consumer as StatsConsumer };
